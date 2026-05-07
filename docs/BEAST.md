@@ -682,3 +682,461 @@ Phoenix Chick  ──(Lv 100 + Evolution Shard)──►  Phoenix  ──(Lv 500
 - `Phoenix Rebirth` damage bonus requires checking `PhoenixRebirthUsed == true` at cast time — if Rebirth hasn't triggered yet, skill deals normal ×3.5 with no bonus
 - `Rising Flame` scaling with active Burn stacks requires reading the target's active status effect list at cast time; dev must sum all Burn instances (refreshed or new) as one count — recommend treating any active Burn as +20% regardless of stack count
 - Highest base ATK and SPD of all Legendary beasts at Stage 1 — trades HP and DEF for pure offense; Rebirth compensates for fragility
+
+---
+
+## 016 · Cat `Common`
+
+**Natural Affinity:** Neutral
+**Stat Build:** Speed
+**Habitat:** Tall grass, shadowed alleyways near settlements — `zone_starter`, `zone_forest`
+**Behaviour:** Skittish. Escape chance 70%. Flees on approach but turns aggressive the moment it is cornered — a captured Cat fights harder than most beasts twice its size.
+
+> *"The Cat has spent its entire life pretending it does not care what you think. This pretence is flawless and completely sincere."*
+
+**Evolution Chain:**
+```
+Cat  ──(Lv 20 + Evolution Shard)──►  Panther  ──(Lv 100 + Evolution Crystal + Shadow Claw)──►  Shadow Panther
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Cat | Small orange or grey voxel, alert ears, flicking tail idle | — |
+| 2 | Panther | Sleek jet-black coat, amber eyes, crouching low-profile stance | Shadow Stalk |
+| 3 | Shadow Panther | Translucent dark body, violet eye glow, shadow-smoke trail at paws | Phantom Slash |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 85 | 55 | 14 | 8 | 15 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Scratch | Physical | 8 | ×1.2 | Fast claw strike; 25% Armor Break (DEF −30%, 1T) |
+| ★ | Dodge Roll | Self-Buff | 10 | — | 40% dodge chance, 1T; if dodge succeeds, auto-counters with ×0.8 Physical |
+| | Pounce | Physical | 15 | ×1.8 | +50% bonus damage if target HP is above 75% (ambush bonus) |
+| | Hiss | Debuff | 12 | — | Target ATK −30% & 25% fear (skip turn chance), 2T |
+| | Shadow Stalk | Self-Buff | 18 | — | Own SPD +40% & crit rate +30%, 2T; unlocks at Stage 2 |
+| | Phantom Slash | Physical | 28 | ×2.5 | Auto-hits ignoring accuracy if Dodge Roll was used last turn; Stage 3 only |
+
+**Lore Notes:**
+- Shadow Claw drops from Forest Cave boss (Goblin Warchief), 9% drop rate
+- Dodge Roll counter-attack is not a separate turn — it resolves within the same turn as the incoming attack
+- Phantom Slash's auto-hit check reads the previous-turn action flag; dev must track `LastActionUsed` per pet per turn in battle state
+- Highest base SPD among all Common-tier beasts; ties with Rabbit
+
+---
+
+## 017 · Rabbit `Common`
+
+**Natural Affinity:** Nature-lean
+**Stat Build:** Speed
+**Habitat:** Open meadows and flower fields — `zone_starter`
+**Behaviour:** Skittish. Highest escape chance of all Common beasts (80%). Requires Iron Trap or higher for reliable capture. Bolts in a zigzag pattern when fleeing (cosmetic).
+
+> *"The Rabbit does not survive by being strong. It survives by being somewhere else — ideally somewhere you haven't looked yet."*
+
+**Evolution Chain:**
+```
+Rabbit  ──(Lv 20 + Evolution Shard)──►  Swift Rabbit  ──(Lv 100 + Evolution Crystal + Storm Ear)──►  Thunder Hare
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Rabbit | Small white or brown voxel, oversized ears, twitching nose idle | — |
+| 2 | Swift Rabbit | Longer legs, blue-tipped ears, faint speed-line particles when running | Double Jump |
+| 3 | Thunder Hare | Electric-blue fur, crackling ear tips, lightning trail on movement, enlarged hind legs | Last Stand |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 85 | 55 | 14 | 8 | 15 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Quick Kick | Physical | 8 | ×1.2 | Back-leg strike; high priority — acts before most Normal-speed moves |
+| ★ | Hop Away | Self-Buff | 10 | — | 50% dodge chance, 1T; also adds +40% flee success bonus if used during Wild Hunt |
+| | Lucky Clover | Self-Buff | 14 | — | Own dodge +25% & target accuracy −15%, 2T |
+| | Double Jump | Physical | 20 | ×1.8 | Hits twice at ×0.9 each; second hit always connects if first hit lands; unlocks at Stage 2 |
+| | Thunder Burst | Electric Elemental | 26 | ×2.5 | 35% Shock (SPD −25%, 2T); accessed after imbuing Electric at Lv 50 or via Skill Shop |
+| | Last Stand | Self-Buff | 35 | — | If own HP < 25%, own ATK +80% & SPD +50%, 3T; Stage 3 only |
+
+**Lore Notes:**
+- Storm Ear drops from Mountain Ruins boss (Lich King), 7% drop rate
+- `Hop Away`'s flee bonus interacts with the capture formula: adds a flat +40% to the standard 70% flee base — dev must apply this additively before the random roll, not multiplicatively
+- Cat and Rabbit share identical base stats; differentiation is entirely through skill pool — Cat is dodge-counter, Rabbit is evasion-burst; ensure this distinction is clear in the in-game Codex descriptions
+
+---
+
+## 018 · Frog `Common`
+
+**Natural Affinity:** Water-lean
+**Stat Build:** Defensive
+**Habitat:** Riverbanks, lily pads, and boggy clearings — `zone_starter`, `zone_forest`
+**Behaviour:** Passive. Sits motionless. Only reacts when approached within 5 studs. Puffs its throat sac (visual DEF buff indicator) before engaging.
+
+> *"The Frog has been sitting in this exact spot since before you arrived and will be sitting here long after you leave. You were the anomaly."*
+
+**Evolution Chain:**
+```
+Frog  ──(Lv 20 + Evolution Shard)──►  Toad  ──(Lv 100 + Evolution Crystal + Toxic Gland)──►  Poison Toad King
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Frog | Small green voxel, bulging eyes, throat sac visible | — |
+| 2 | Toad | Larger, warty brown-green texture, slow lumbering stance, dripping mucus | Swamp Gas |
+| 3 | Poison Toad King | Enormous, deep-purple with toxic-yellow spots, crown of bone spurs, poison-mist aura | Toxic Flood |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 120 | 50 | 12 | 14 | 8 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Tongue Lash | Physical | 10 | ×1.2 | 20% Poison (−3% max HP/turn, 5T) |
+| ★ | Toxic Spit | DOT | 14 | — | Inflicts Poison (−3% max HP/turn, 5T); no direct damage |
+| | Puff Up | Self-Buff | 12 | — | Own DEF +40%, 2T; 25% chance to reflect Physical damage back to attacker |
+| | Mud Splash | Water Elemental | 10 | ×0.8 | Target SPD −30%, 3T (longer duration than standard Shock) |
+| | Swamp Gas | Debuff | 18 | — | 50% Blind on target, 2T; 20% Poison if target not already poisoned; unlocks at Stage 2 |
+| | Toxic Flood | Water Elemental | 35 | ×2.5 | Active Poison on target deals double tick damage this turn, then resets timer to 5T; Stage 3 only |
+
+**Lore Notes:**
+- Toxic Gland drops from Forest Cave boss (Goblin Warchief), 11% drop rate
+- `Puff Up` reflect damage is not elemental — it deals Physical regardless of what hit the Frog; resolve after incoming damage, before start of next turn
+- `Toxic Flood` doubling the Poison tick is applied once as a one-time multiplier (×2 damage that turn only) then the Poison continues at normal rate with a fresh 5T countdown — dev must split the one-time burst and the reset into two separate operations
+- Frog and Slime (008) are both Common Defensive beasts; Frog is Poison-centric, Slime is absorption-centric — distinct enough for Codex but worth noting in balance pass
+
+---
+
+## 019 · Sheep `Common`
+
+**Natural Affinity:** Neutral
+**Stat Build:** Balanced
+**Behaviour:** Passive. Grazes and ignores everything including active combat nearby. 10% chance each turn to simply idle (skip action, cosmetic animation). After evolving, this behaviour vanishes — the Ram knows exactly what it is doing.
+**Habitat:** Highland meadows and grassy plateaus — `zone_starter`
+
+> *"Underestimated by every beast it has ever defeated. The Sheep keeps no record of this. That is the most terrifying part."*
+
+**Evolution Chain:**
+```
+Sheep  ──(Lv 20 + Evolution Shard)──►  Ram  ──(Lv 100 + Evolution Crystal + Golden Fleece)──►  Iron Ram
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Sheep | Fluffy white voxel body, black face, wobbly gait | — |
+| 2 | Ram | Stocky, brown-grey, large curved horns, focused stance | Stampede |
+| 3 | Iron Ram | Metal-plated wool, iron-tipped horns, sparks on hoof strike, earth tremor particle | Golden Fleece |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 100 | 50 | 15 | 10 | 10 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Wool Cushion | Self-Buff | 10 | — | Own DEF +25%, 2T; absorbs next hit damage up to 20% own max HP |
+| ★ | Headbutt | Physical | 14 | ×1.8 | 30% Armor Break (DEF −30%, 2T); +15% bonus damage if Wool Cushion is active |
+| | Baa Buff | Self-Buff | 15 | — | Own ATK +20% & Regen +4% max HP/turn, 2T |
+| | Stampede | Physical | 25 | ×2.5 | Damage +10% for each full turn elapsed since battle start (max +50%); unlocks at Stage 2 |
+| | Iron Charge | Physical | 30 | ×3.0 | Ignores all DEF buffs on target (Withdraw, Stone Skin, etc.) — deals damage as if target DEF buffs don't exist |
+| | Golden Fleece | Self-Buff | 38 | — | Own DEF +60%, immune to Physical damage, 2T; Stage 3 only |
+
+**Lore Notes:**
+- Golden Fleece (evolution material) drops from Mountain Ruins boss (Lich King), 8% drop rate — same name as the Stage 3 skill by design (the material and the skill share lore)
+- The Stage 1 idle skip (10% per turn) is a **world and battle behaviour**; in battle, if the skip triggers, it counts as the pet's turn being used (no refund of SP or action)
+- `Iron Charge` ignoring DEF buffs does not reduce the target's actual DEF stat — it bypasses buff modifiers only; base DEF still applies; dev must separate `base_DEF` from `buff_DEF_modifier` in the damage formula
+- Stampede turn-count scaling uses `battle_turn_counter` in BattleState — ensure counter increments after both sides have acted (not per individual action)
+
+---
+
+## 020 · Penguin `Common`
+
+**Natural Affinity:** Ice-lean
+**Stat Build:** Balanced
+**Habitat:** Snow-covered forest hills and ice cave entrances — `zone_forest` (northern areas), `zone_mountain`
+**Behaviour:** Passive. Spawns in groups of 2–4. Waddles toward the player out of curiosity. Slides on ice terrain (cosmetic only). Does not retreat even at low HP — it simply keeps waddling forward.
+
+> *"The Penguin is deeply unbothered by the cold, by danger, and by the idea that it should be afraid of you."*
+
+**Evolution Chain:**
+```
+Penguin  ──(Lv 20 + Evolution Shard)──►  Emperor Penguin  ──(Lv 100 + Evolution Crystal + Glacial Core)──►  Frost Emperor
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Penguin | Small black-white voxel, orange beak and feet, belly-slide idle | — |
+| 2 | Emperor Penguin | Taller, golden-yellow ear patches, regal upright posture, frost breath puff idle | Blizzard Step |
+| 3 | Frost Emperor | Icy-blue and silver armored feathers, frozen crown, snowflake particle aura | Glacial Roar |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 100 | 50 | 15 | 10 | 10 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Ice Peck | Physical | 10 | ×1.2 | 30% Freeze on target (skip 1 turn) |
+| ★ | Belly Slide | Self-Buff | 12 | — | Own SPD +30%, 2T; in `zone_mountain` ice terrain, bonus +20% additional SPD |
+| | Snowball | Ice Elemental | 16 | ×1.8 | 40% Freeze; power lowered to compensate high Freeze rate |
+| | Ice Shield | Self-Buff | 20 | — | Own DEF +40% & 25% reflect Ice Elemental damage, 3T |
+| | Blizzard Step | Debuff | 15 | — | Target SPD −35%, 3T; 20% miss chance per turn while debuff is active; unlocks at Stage 2 |
+| | Glacial Roar | Ice Elemental | 40 | ×3.5 | 100% Freeze (guaranteed); Stage 3 only |
+
+**Lore Notes:**
+- Glacial Core drops from Mountain Ruins boss (Lich King), 10% drop rate
+- Group spawn (2–4) means a single zone_forest encounter may produce 2–4 separate Penguin battle instances — player engages one at a time; the others remain as non-combat idle NPCs until their partner is defeated or captured
+- `Belly Slide` zone bonus requires `BattleService` to receive the current zone ID at battle initialisation and pass it to skill resolution — flag for BattleService/ZoneService integration
+- `Glacial Roar` guaranteed Freeze makes Frost Emperor a strong turn-denial pick in PvP; flag for balance review alongside Cerberus `Final Judgment`
+
+---
+
+## 021 · Owl `Uncommon`
+
+**Natural Affinity:** Neutral
+**Stat Build:** Balanced
+**Habitat:** Ancient hollow trees and moonlit forest clearings — `zone_forest`, `zone_mountain`
+**Behaviour:** Passive. Stationary; perches on elevated objects. Silent approach — no pre-aggro warning sound. Only attacks if the player interacts directly or attacks first.
+
+> *"The Owl asked one question its entire life. It never received an answer. It has not stopped asking."*
+
+**Evolution Chain:**
+```
+Owl  ──(Lv 30 + Evolution Shard)──►  Great Owl  ──(Lv 150 + Evolution Crystal + Ancient Tome)──►  Sage Owl
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Owl | Round brown voxel, large disc eyes, head-rotation idle animation | — |
+| 2 | Great Owl | Larger wingspan, silver-white plumage, glowing yellow eyes, silent feather particles | Wisdom Strike |
+| 3 | Sage Owl | White and gold robe-like feathers, floating tome orbiting body, arcane glyph aura | Sage's Judgment |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 130 | 65 | 20 | 14 | 13 |
+
+**Growth / Lv:** +7 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Talon Grip | Physical | 10 | ×1.2 | 40% Armor Break (DEF −30%, 2T) |
+| ★ | Night Gaze | Debuff | 12 | — | Target accuracy −40% (50% miss chance), 2T |
+| | Feather Storm | Physical | 14 | ×0.8 | Hits 3× at ×0.5 each; each hit has 25% Blind chance independently |
+| | Silent Hunt | Self-Buff | 18 | — | Own accuracy immune to debuffs for 2T; own ATK +25% same duration |
+| | Wisdom Strike | Physical | 20 | ×1.8 | Base ×1.8; +×0.2 bonus for each full turn elapsed in battle (cap: ×2.8 at turn 5+); unlocks at Stage 2 |
+| | Sage's Judgment | Physical | 40 | ×3.5 | If battle has lasted 5+ turns, deals an additional ×0.5 bonus on top; Stage 3 only |
+
+**Lore Notes:**
+- Ancient Tome drops from Dark Forest boss (Elder Treant), 9% drop rate
+- `Wisdom Strike` and `Sage's Judgment` both reference `battle_turn_counter` from BattleState — same counter as Sheep's Stampede; confirm shared implementation
+- `Wisdom Strike` power increases per turn make Owl a slow-start but high-ceiling attacker — particularly dangerous in long PvP matches; cap at ×2.8 is a hard limit, not soft
+- Owl is the only Uncommon Balanced beast with a scaling-damage mechanic, distinguishing it from Scorpion (Balanced, flat damage) and Platypus (Balanced, shock-focus)
+
+---
+
+## 022 · Platypus `Uncommon`
+
+**Natural Affinity:** Electric-lean
+**Stat Build:** Balanced
+**Habitat:** Slow-moving rivers and muddy stream banks — `zone_forest`, `zone_mountain`
+**Behaviour:** Passive. Semi-aquatic patrol between water and shore. Appears entirely harmless. Responds to physical contact with a sudden electrical discharge — this is the only warning it gives.
+
+> *"Scientists spent years arguing about whether the Platypus was real. The Platypus spent those same years being electric."*
+
+**Evolution Chain:**
+```
+Platypus  ──(Lv 30 + Evolution Shard)──►  Shock Platypus  ──(Lv 150 + Evolution Crystal + Charged Spur)──►  Thunder Bill
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Platypus | Brown flat voxel, duck-bill, beaver tail, stubby legs | — |
+| 2 | Shock Platypus | Yellow-tipped fur, visible electric spur on hind foot, faint static aura | Thunder Dive |
+| 3 | Thunder Bill | Sleek black and gold body, crackling spur, full lightning aura, spark particles on movement | Lightning Beak |
+
+**Passive — Discharge:** Whenever this pet is hit by a Physical attack, 20% chance to Shock the attacker (SPD −25%, 2T). Passive; does not cost a turn or SP.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 130 | 65 | 20 | 14 | 13 |
+
+**Growth / Lv:** +7 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Bill Smack | Physical | 10 | ×1.2 | 40% Shock (SPD −25%, 2T); looks comedic, hits consistently |
+| ★ | Volt Spur | Electric Elemental | 12 | ×1.2 | 35% Shock; stacks with Bill Smack's Shock to double SPD reduction |
+| | River Dash | Self-Buff | 14 | — | Own SPD +30%, 2T; also restores 10 flat Stamina immediately |
+| | Conductive Body | Self-Buff | 18 | — | Discharge passive proc chance raised from 20% → 50%, 3T |
+| | Thunder Dive | Electric Elemental | 28 | ×2.5 | 50% Shock; resets any active SPD buffs on target before applying damage; unlocks at Stage 2 |
+| | Lightning Beak | Electric Elemental | 40 | ×3.5 | Guaranteed Shock + ignores 30% of target DEF; Stage 3 only |
+
+**Lore Notes:**
+- Charged Spur drops from Volcano Pit boss (Orc Overlord), 10% drop rate
+- Discharge passive is implemented as a post-damage-resolution hook in `BattleService` — check Physical attack type tag before rolling; Elemental attacks do not trigger it
+- Double Shock SPD reduction note: Shock applied twice does not halve SPD twice — the second application refreshes the timer only; net SPD reduction remains −25%; dev must treat Shock as a refresh-not-stack effect
+- `Thunder Dive` resetting SPD buffs resolves before damage calculation — strip buffs, recalculate SPD order, then apply damage
+
+---
+
+## 023 · Bat `Uncommon`
+
+**Natural Affinity:** Dark-lean
+**Stat Build:** Speed
+**Habitat:** Cave ceilings and hollow trees in dark areas — `zone_forest` (cave areas), `zone_mountain` (caverns)
+**Behaviour:** Skittish in open areas. Aggressive inside caves and designated dark zones. Hangs upside down as idle state; only drops down when player approaches within 6 studs.
+
+> *"The Bat doesn't see the world the way you do. It hears it. Whether this is less impressive depends entirely on where you were planning to hide."*
+
+**Evolution Chain:**
+```
+Bat  ──(Lv 30 + Evolution Shard)──►  Vampire Bat  ──(Lv 150 + Evolution Crystal + Shadow Fang Fragment)──►  Dark Wing
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Bat | Small grey-brown voxel, folded wings when idle, beady red eyes | — |
+| 2 | Vampire Bat | Larger, deep crimson membranes, fangs visible, blood-drop particles at mouth | Blood Drain |
+| 3 | Dark Wing | Enormous black wings with violet veins, shadow-smoke body, glowing hollow eyes | Dark Veil |
+
+**Passive — Echolocation:** This pet is immune to Blind. Accuracy debuffs from any source have no effect on it.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 110 | 70 | 19 | 11 | 20 |
+
+**Growth / Lv:** +7 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Sonar Pulse | Debuff | 10 | — | Target accuracy −30% & 25% Blind, 2T; Bat's Echolocation makes it the only beast that can inflict Blind without risking the same |
+| ★ | Wing Slash | Physical | 10 | ×1.2 | Fast dark strike; 20% Blind on target |
+| | Echolocation Burst | Self-Buff | 14 | — | Own SPD +25%, 2T; own accuracy locked at 100% regardless of further debuffs (redundant with passive, but refreshes SPD) |
+| | Screech | Debuff | 18 | — | Target ATK −25% & SPD −20%, 2T; 30% Blind |
+| | Blood Drain | Dark Elemental | 20 | ×1.8 | Heals self for 30% of damage dealt (lifesteal); unlocks at Stage 2 |
+| | Dark Veil | Dark Elemental | 40 | ×3.5 | 100% Blind on target; Bat takes 0 damage from target this turn (dark shielding); Stage 3 only |
+
+**Lore Notes:**
+- Shadow Fang Fragment drops from Forest Cave boss (Goblin Warchief), 10% drop rate
+- Echolocation passive immunity is stored as a pet flag `ImmuneToBlind = true` in PetData; accuracy debuffs must check this flag before applying — if true, skip accuracy modification entirely
+- `Dark Veil` zero-damage shield applies only to the turn it is cast; it is not a persistent buff — implement as a one-turn damage intercept flag, not a DEF modifier
+- Bat is the only Uncommon Speed beast that focuses on CC (Blind) rather than raw SPD scaling, differentiating it from Fox (SPD burst) and later Speed builds
+
+---
+
+## 024 · Lion `Rare`
+
+**Natural Affinity:** Neutral
+**Stat Build:** Offensive
+**Habitat:** Open savannah highlands and rocky outcrops — `zone_mountain`, `zone_volcano`
+**Behaviour:** Territorial. Other wild beasts within the Lion's patrol range actively flee from it (world behaviour — not triggered in battle). Charges the player immediately upon entering its territory with no warning period.
+
+> *"The Lion rules not because it is the strongest in the jungle. It rules because everything else in the jungle has already decided that it does."*
+
+**Evolution Chain:**
+```
+Lion  ──(Lv 50 + Evolution Shard)──►  White Lion  ──(Lv 200 + Evolution Crystal + Mane of Pride)──►  Celestial Lion
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Lion | Golden-brown voxel, blocky mane, proud upright stance | — |
+| 2 | White Lion | Silver-white fur, glowing blue mane, imposing size increase | Golden Mane |
+| 3 | Celestial Lion | Semi-translucent golden body, celestial mane of light rays, roar causes visible shockwave particle | King's Judgment |
+
+**Passive — Pride:** If this pet's ATK stat is higher than the opponent's ATK at the start of any turn, gain +15% bonus ATK that turn. Recalculated every turn.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 150 | 85 | 34 | 14 | 21 |
+
+**Growth / Lv:** +10 HP · +4 Sta · +4 ATK · +3 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Mauling Paw | Physical | 15 | ×1.8 | 35% Armor Break (DEF −30%, 2T) |
+| ★ | Pride Roar | Self-Buff | 12 | — | Own ATK +30%, 3T; if Pride passive is active this turn, additionally gain SPD +20% |
+| | Apex Predator | Self-Buff | 20 | — | Own ATK +15% for each active Armor Break stack on target (max ×3 stacks = +45%) |
+| | Golden Mane | Self-Buff | 22 | — | Own DEF +35% & reflects 20% incoming Physical damage, 2T; unlocks at Stage 2 |
+| | Celestial Pounce | Physical | 30 | ×2.5 | Always-first this turn; removes target's active ATK buffs before damage resolves |
+| | King's Judgment | Physical | 42 | ×3.5 | Ignores Taunt effects; forces target to target Lion for 1 turn after hit; Stage 3 only |
+
+**Lore Notes:**
+- Mane of Pride drops from Volcano Pit boss (Orc Overlord), 12% drop rate
+- Pride passive ATK comparison uses the raw ATK stat (before buffs) — dev must compare `base_ATK` values at turn start, before buff modifiers are applied; this prevents Pride from triggering off temporary ATK buffs the opponent just used
+- `Celestial Pounce` always-first mechanic uses the same implementation as Tiger `Pounce` and Eagle `Talon Dive`; when multiple always-first skills clash, resolve by raw SPD as tiebreaker (see Eagle lore note)
+- `King's Judgment` ignoring Taunt is the counter to Cerberus `Chain Pull` — intentional design; Lion vs Cerberus is a designed rivalry matchup
+
+---
+
+## 025 · Shark `Rare`
+
+**Natural Affinity:** Water-lean
+**Stat Build:** Offensive
+**Habitat:** Deep mountain lakes and underground coastal caverns — `zone_mountain`, `zone_volcano`
+**Behaviour:** Predatory. Patrols underwater, invisible until it surfaces. Surfaces only when the player stands at water's edge. Does not retreat — ever. Blood Frenzy world behaviour: if the player's pet has a DOT active when the Shark surfaces, it charges immediately with +15% ATK.
+
+> *"The Shark is older than the mountains it swims beneath. It has not changed in all that time. There was never any need to."*
+
+**Evolution Chain:**
+```
+Shark  ──(Lv 50 + Evolution Shard)──►  Great White  ──(Lv 200 + Evolution Crystal + Abyssal Fin)──►  Apex Predator*
+```
+*Species name: Apex Predator Shark (to distinguish from the Lion skill of the same name)
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Shark | Grey voxel torpedo body, triangular dorsal fin, rows of teeth | — |
+| 2 | Great White | Larger, white underside, scarred snout, water-spray particles on movement | Spiral Dive |
+| 3 | Apex Predator Shark | Massive, deep-ocean black, bioluminescent jaw stripe, vortex water aura | Apex Strike |
+
+**Passive — Blood Frenzy:** When this pet's HP drops below 50%, or when the target has any DOT active, this pet gains +20% ATK. Both conditions can be active simultaneously for +40% total. Recalculated each turn.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 150 | 85 | 34 | 14 | 21 |
+
+**Growth / Lv:** +10 HP · +4 Sta · +4 ATK · +3 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Bite Frenzy | Physical | 10 | ×1.2 | Hits 2× at ×0.8; each hit deals +20% extra if target has any active DOT |
+| ★ | Blood Sense | Self-Buff | 12 | — | Own ATK +25%, 3T; if target HP < 50%, +25% additional (total +50%) |
+| | Fin Slash | Physical | 18 | ×1.8 | 30% Bleed (DOT: ×1.0 damage/turn, 3T) |
+| | Feeding Frenzy | Physical | 28 | ×1.8 | Hits 3× at ×0.8 each; each hit gains +10% damage per active DOT on target |
+| | Spiral Dive | Water Elemental | 26 | ×2.5 | 40% Bleed + ignores 20% target DEF; unlocks at Stage 2 |
+| | Apex Strike | Physical | 42 | ×3.5 | If target has any active DOT, this skill bypasses all DEF entirely; Stage 3 only |
+
+**Lore Notes:**
+- Abyssal Fin drops from Dark Forest boss (Elder Treant), 11% drop rate
+- Blood Frenzy passive is evaluated at the start of each turn — read `self.HP / self.MaxHP` and scan `target.ActiveEffects` for any DOT tag; apply the +20% modifier per condition to `ATK_modifier` before damage calculation
+- `Apex Strike` DEF bypass only applies when a DOT is present — dev must check `target.ActiveEffects` at cast time; if no DOT is active, skill deals normal damage with full DEF applied
+- Shark and Lion share identical base stats (both Rare Offensive) — differentiation is passive type (Blood Frenzy vs Pride) and skill archetype (DOT-exploitation vs ATK-stacking); confirm both passives are distinguishable in the in-game pet info UI
