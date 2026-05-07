@@ -225,6 +225,18 @@ Griffin  ──(Lv 75 + Evolution Shard)──►  War Griffin  ──(Lv 300 + 
 - Only obtainable in `zone_volcano` (rare spawn) and `zone_abyss` (uncommon spawn)
 - Celestial Griffin is a high-tier PvP and social prestige pet; Feather Storm is its core PvP tool
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-004.1.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-004.2.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-004.3.jpeg" />
+
 ---
 
 ## 005 · Dragon `Legendary`
