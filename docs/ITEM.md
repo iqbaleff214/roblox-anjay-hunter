@@ -29,7 +29,12 @@ Items are stored in `PlayerData.Inventory` as a key–value map (`item_id → qu
 | Evolution Material | Consumable | Required for Stage 2 or Stage 3 evolution |
 | Species Material | Consumable (Evolution) | Species-specific ingredient for Stage 3 evolution only |
 | Boost | Consumable | Temporary battle or economy buff; Robux-only acquisition |
-| Trophy | Collectible | Rare boss drops; no mechanical use |
+| Status Cure | Consumable | Removes one or more active negative status effects from own pet |
+| Stat Booster | Consumable | Grants a temporary ATK / DEF / SPD buff to own pet for 3 turns |
+| Revival | Consumable | Restores HP to a fainted (0 HP) pet; in-battle use only |
+| Overworld Utility | Consumable | Modifies wild encounter rate or spawn rarity in the overworld for 30 minutes |
+| Event Currency | Collectible | Seasonal event spendable currency; no function outside active event window |
+| Trophy | Collectible | Boss or field drops; no mechanical use; sell or display |
 
 ---
 
@@ -46,8 +51,10 @@ Items are stored in `PlayerData.Inventory` as a key–value map (`item_id → qu
 | **Achievement reward** | Basic Trap ×5 (`first_capture`), Evolution Shard ×1 (`pet_lv100`) |
 | **Pet Expedition (Medium)** | 1 random common item (HP Potion Small/Large, Basic Trap) |
 | **Pet Expedition (Long)** | 1 random uncommon–rare item (Iron Trap, Evolution Shard, Gold Trap chance) |
-| **Seasonal Event chest** | Boost items, event-exclusive Species Materials |
-| **Robux Developer Product** | XP Boost Crystal, Capture Booster, Dungeon Key |
+| **Wild beast battle (Stage 2+)** | Species Materials (8% per respective species), Shiny Scale (2%), Emerald Feather (2–3%) |
+| **Wild beast battle (Abyss zone)** | Void Shard (3–5%), Anaconda Venom Gem (8%), Dragon Scale (10%) |
+| **Seasonal Event chest** | Boost items, Lucky Charm, event-exclusive Species Materials |
+| **Robux Developer Product** | XP Boost Crystal, Capture Booster, Dungeon Key, Lucky Charm |
 
 ---
 
@@ -83,6 +90,31 @@ Items are stored in `PlayerData.Inventory` as a key–value map (`item_id → qu
 | 026 | `enchanted_bark_rune` | Enchanted Bark Rune | Collectible | Trophy | Cannot buy | 2,000 Silver | 99 |
 | 027 | `volcanic_forge_shard` | Volcanic Forge Shard | Collectible | Trophy | Cannot buy | 5,000 Silver | 99 |
 | 028 | `void_crystal` | Void Crystal | Collectible | Trophy | Cannot buy | 15,000 Silver | 99 |
+| 029 | `dragon_scale` | Dragon Scale | Consumable | Species Material | Cannot buy | 400 Gold | 99 |
+| 030 | `phoenix_ash` | Phoenix Ash | Consumable | Species Material | Cannot buy | 400 Gold | 99 |
+| 031 | `shadow_fang` | Shadow Fang | Consumable | Species Material | Cannot buy | 150 Gold | 99 |
+| 032 | `kings_mane_lock` | King's Mane Lock | Consumable | Species Material | Cannot buy | 150 Gold | 99 |
+| 033 | `tempest_quill` | Tempest Quill | Consumable | Species Material | Cannot buy | 100 Gold | 99 |
+| 034 | `void_slime_core` | Void Slime Core | Consumable | Species Material | Cannot buy | 30 Gold | 99 |
+| 035 | `ancient_shell_plate` | Ancient Shell Plate | Consumable | Species Material | Cannot buy | 100 Gold | 99 |
+| 036 | `fox_spirit_bead` | Fox Spirit Bead | Consumable | Species Material | Cannot buy | 50 Gold | 99 |
+| 037 | `dire_pelt` | Dire Pelt | Consumable | Species Material | Cannot buy | 50 Gold | 99 |
+| 038 | `anaconda_venom_gem` | Anaconda Venom Gem | Consumable | Species Material | Cannot buy | 200 Gold | 99 |
+| 039 | `antidote` | Antidote | Consumable | Status Cure | 100 Silver | 10 Silver | 999 |
+| 040 | `remedy` | Remedy | Consumable | Status Cure | 150 Silver | 15 Silver | 999 |
+| 041 | `warming_herb` | Warming Herb | Consumable | Status Cure | 100 Silver | 10 Silver | 999 |
+| 042 | `full_cure` | Full Cure | Consumable | Status Cure | 500 Silver / 5 Gold | 50 Silver | 999 |
+| 043 | `power_herb` | Power Herb | Consumable | Stat Booster | 200 Silver | 20 Silver | 999 |
+| 044 | `guard_stone` | Guard Stone | Consumable | Stat Booster | 200 Silver | 20 Silver | 999 |
+| 045 | `swift_root` | Swift Root | Consumable | Stat Booster | 200 Silver | 20 Silver | 999 |
+| 046 | `revive_seed` | Revive Seed | Consumable | Revival | 30 Gold | 5 Gold | 99 |
+| 047 | `beast_lure` | Beast Lure | Consumable | Overworld Utility | 300 Silver | 30 Silver | 99 |
+| 048 | `repellent` | Beast Repellent | Consumable | Overworld Utility | 200 Silver | 20 Silver | 99 |
+| 049 | `festival_coin` | Festival Coin | Collectible | Event Currency | Cannot buy | Cannot sell | 9,999 |
+| 050 | `lucky_charm` | Lucky Charm | Consumable | Boost | Robux (29 R$) / Battle Pass | Cannot sell | 99 |
+| 051 | `shiny_scale` | Shiny Scale | Collectible | Trophy | Cannot buy | 200 Silver | 99 |
+| 052 | `emerald_feather` | Emerald Feather | Collectible | Trophy | Cannot buy | 500 Silver | 99 |
+| 053 | `void_shard` | Void Shard | Collectible | Trophy | Cannot buy | 3,000 Silver | 99 |
 
 ---
 
@@ -756,6 +788,647 @@ Items are stored in `PlayerData.Inventory` as a key–value map (`item_id → qu
 
 ---
 
+---
+
+### Species Materials Continued (029–038)
+
+---
+
+### [029] Dragon Scale
+
+| Field | Value |
+|---|---|
+| **Item ID** | `dragon_scale` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 400 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Dragon pet line Stage 3 evolution (Whelp → Drake → Elder Dragon) |
+| **Acquisition** | Wild Dragon battle (Abyss zone) — 10% drop on victory; first-ever Dragon capture — 1× guaranteed |
+
+> *"The Elder Dragon sheds one scale per century. Finding one on the ground is considered either divine luck or a very bad omen, depending on which hunter's guild you ask."*
+
+**Dev Notes:**
+- `species_item_id = "dragon_scale"` in Dragon species config
+- Dragon is Legendary rarity; wild spawns are rare in Abyss zone; 10% drop from defeating (not necessarily capturing) any Dragon-line wild beast
+- First-capture guarantee: `CaptureService` checks `PlayerData.CodexEntries["dragon"] == nil`; on successful capture add `dragon_scale ×1` unconditionally
+- 400 Gold sell value reflects Legendary tier + Abyss zone difficulty; second-highest sell value in Species Material category (tied with Phoenix Ash)
+
+---
+
+### [030] Phoenix Ash
+
+| Field | Value |
+|---|---|
+| **Item ID** | `phoenix_ash` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 400 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Phoenix pet line Stage 3 evolution (Phoenix → Fire Phoenix → Eternal Phoenix) |
+| **Acquisition** | Wild Phoenix battle (Volcano zone) — 10% drop on victory; first-ever Phoenix capture — 1× guaranteed; Orc Overlord boss (Volcano Pit) — 3% rare drop |
+
+> *"Collected from the smouldering remains left behind when a Phoenix resurrects itself. The ash is cool to the touch and smells like ozone. No one has clarified how the taste was discovered."*
+
+**Dev Notes:**
+- `species_item_id = "phoenix_ash"` in Phoenix species config
+- Phoenix Rebirth passive: when Phoenix is KO'd for the second time in a battle, 10% chance to drop `phoenix_ash ×1` as a field reward regardless of capture outcome
+- Orc Overlord 3% drop provides an alternative path for players who haven't triggered a wild Phoenix spawn
+- Phoenix is Legendary rarity; appears only in Volcano zone and Abyss zone (rare)
+
+---
+
+### [031] Shadow Fang
+
+| Field | Value |
+|---|---|
+| **Item ID** | `shadow_fang` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 150 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Tiger pet line Stage 3 evolution (Tiger → White Tiger → Shadow Tiger) |
+| **Acquisition** | Wild Tiger-line battle (Mountain zone) — 8% drop from Stage 2+ White Tiger only; Lich King boss (Mountain Ruins) — 5% rare drop |
+
+> *"A jet-black claw from a White Tiger that completed a kill in total darkness. The claw is permanently stained with shadow. Shadow Tigers form when this fang's stored darkness merges with a White Tiger that refuses to be seen."*
+
+**Dev Notes:**
+- `species_item_id = "shadow_fang"` in Tiger species config
+- Drop only from Stage 2+ wild; `BattleService` checks `wild_beast.EvolutionStage >= 2` before rolling; Stage 1 Tiger battle yields no drop
+- Lich King 5% is a secondary path — Mountain Ruins runners get minor cross-benefit
+- Tiger is Rare rarity (GDD §6.2); Stage 3 at level 200
+
+---
+
+### [032] King's Mane Lock
+
+| Field | Value |
+|---|---|
+| **Item ID** | `kings_mane_lock` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 150 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Lion pet line Stage 3 evolution (Lion → Battle Lion → Pride Sovereign) |
+| **Acquisition** | Wild Lion-line battle (Mountain zone) — 8% drop from Stage 2+ Battle Lion; Elder Treant boss (Dark Forest) — 5% rare drop |
+
+> *"A knot of mane taken from the dominant male of a Battle Lion pride, braided with bone beads by rival members as a trophy of dominance. The Pride Sovereign transformation requires the Lion to internalise what the knot represents."*
+
+**Dev Notes:**
+- `species_item_id = "kings_mane_lock"` in Lion species config
+- Lion is Rare rarity; Stage 2 at level 50, Stage 3 at level 200
+- Elder Treant 5% gives Dark Forest runners secondary value — two different Rare-pet species materials from two separate dungeons
+
+---
+
+### [033] Tempest Quill
+
+| Field | Value |
+|---|---|
+| **Item ID** | `tempest_quill` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 100 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Eagle pet line Stage 3 evolution (Eagle → War Eagle → Tempest Eagle) |
+| **Acquisition** | Wild Eagle-line battle (Forest or Mountain zone) — 8% drop from Stage 2+ War Eagle; seasonal Sky event chest — 1× guaranteed |
+
+> *"A primary flight feather from a War Eagle that survived a direct lightning strike. The shaft is fused with charged air and vibrates faintly in still weather. Tempest Eagles carry the storm's memory inside this feather."*
+
+**Dev Notes:**
+- `species_item_id = "tempest_quill"` in Eagle species config
+- Eagle is Rare rarity (GDD §6.2); distinct from Thunderbird; Tempest Quill ≠ Storm Feather — different icons: Tempest Quill = amber/gold, Storm Feather = electric blue
+- Tooltip must explicitly differentiate the two feather items to prevent confusion
+- Seasonal Sky event chest grant is a catch-up mechanic for players who miss the normal drop window
+
+---
+
+### [034] Void Slime Core
+
+| Field | Value |
+|---|---|
+| **Item ID** | `void_slime_core` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 30 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Slime pet line Stage 3 evolution (Slime → Slime King → Slime Titan) |
+| **Acquisition** | Forest Cave dungeon Slime monster kill — 3% field drop; Goblin Warchief boss first clear — 1× guaranteed bonus |
+
+> *"The compressed nucleus of a Slime that absorbed too much ambient dungeon energy and imploded. Gooey, weightless, faintly transparent. Slime Kings absorb it on contact and refuse to release it."*
+
+**Dev Notes:**
+- `species_item_id = "void_slime_core"` in Slime species config
+- Slime is Common rarity; 30 Gold sell value is the lowest in Species Materials — reflects accessible early-dungeon source
+- 3% per Slime kill in Forest Cave: ~14 Slimes per full run → ~0.42 expected cores/run → ~7 runs (2–3 days) for one core
+- First-clear bonus: `DungeonService` checks `PlayerData.DungeonFirstClear["dungeon_forest"] == nil`; grants `void_slime_core ×1` once on first Goblin Warchief kill, separate from the 15% species material roll
+
+---
+
+### [035] Ancient Shell Plate
+
+| Field | Value |
+|---|---|
+| **Item ID** | `ancient_shell_plate` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 100 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Turtle pet line Stage 3 evolution (Turtle → Armored Turtle → Titan Turtle) |
+| **Acquisition** | Wild Turtle-line battle (Mountain zone) — 8% drop from Stage 2+ Armored Turtle; Mountain Ruins dungeon monster kill — 2% rare drop from Skeleton encounters |
+
+> *"A carapace plate shed naturally by an Armored Turtle at critical age. Weighs more than expected. Titan Turtles grow their final shell from this plate as a seed — the old shell becomes the new foundation."*
+
+**Dev Notes:**
+- `species_item_id = "ancient_shell_plate"` in Turtle species config
+- Turtle is Common rarity; Stage 2 at level 100; Stage 3 at level 100 (Common threshold)... correction: per GDD §6.6 Common Stage 2 = Level 20, Stage 3 = Level 100
+- Skeleton 2% drop path is low but provides any Mountain Ruins runner a passive chance
+- Shell Plate's 100 Gold sell value is mid-tier — Turtle is Common but Mountain zone access required for Stage 2 drops
+
+---
+
+### [036] Fox Spirit Bead
+
+| Field | Value |
+|---|---|
+| **Item ID** | `fox_spirit_bead` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 50 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Fox pet line Stage 3 evolution (Fox → Trickster Fox → Spirit Fox) |
+| **Acquisition** | Wild Fox-line battle (Forest zone) — 8% drop from Stage 2+ Trickster Fox; Dark Forest dungeon Hostile Fairy kill — 2% rare drop |
+
+> *"An amber bead formed inside a Trickster Fox's tail after years of cultivating illusion magic. No two beads are the same colour under light. Spirit Foxes manifest their third tail from the energy sealed inside."*
+
+**Dev Notes:**
+- `species_item_id = "fox_spirit_bead"` in Fox species config
+- Fox and Kitsune are distinct species with distinct Stage 3 materials: Fox Spirit Bead (amber icon) vs Spirit Orb (jade icon); tooltip must display item ID to avoid confusion
+- Hostile Fairy 2% drop is lore-consistent: fairies and foxes share illusion-magic affinity in the game world
+
+---
+
+### [037] Dire Pelt
+
+| Field | Value |
+|---|---|
+| **Item ID** | `dire_pelt` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 50 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Dog pet line Stage 3 evolution (Dog → Wolf → Dire Wolf) |
+| **Acquisition** | Wild Wolf battle (Forest or Mountain zone) — 8% drop from Stage 2+ Wolf; Forest Cave dungeon Goblin kill — 2% rare drop (Goblins hunt wolves for pelts) |
+
+> *"A hide stripped from a Stage 2 Wolf after a fierce battle, marked with claw scars from ten seasons of fighting. The Dog lineage that absorbs this pelt does not become tame again. It becomes something older."*
+
+**Dev Notes:**
+- `species_item_id = "dire_pelt"` in Dog species config
+- Dog (`species_id = "dog"`) Stage 3 = Dire Wolf; distinct from standalone Wolf beast (`species_id = "wolf"`, BEAST.md 044) whose own Stage 3 material is not yet defined
+- 8% drop from Stage 2+ wild Wolf; Stage 1 Wolf battle yields no Dire Pelt drop
+- Goblin 2% lore-drop is a flavour mechanism — low rate, not intended as a farming path
+
+---
+
+### [038] Anaconda Venom Gem
+
+| Field | Value |
+|---|---|
+| **Item ID** | `anaconda_venom_gem` |
+| **Category** | Consumable — Species Material |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 200 Gold |
+| **Use Context** | Out of battle (Stage 3 evolution only) |
+| **Used For** | Anaconda pet line Stage 3 evolution (Anaconda → King Anaconda → Leviathan Serpent) |
+| **Acquisition** | Wild Anaconda-line battle (Abyss zone) — 8% drop from Stage 2+ King Anaconda; Abyss Rift dungeon Demon monster kill — 3% rare drop |
+
+> *"A crystallised venom gland from a King Anaconda. The venom inside has not degraded in centuries. Leviathan Serpents don't produce venom — the gem's energy becomes the constriction aura that makes them unstoppable."*
+
+**Dev Notes:**
+- `species_item_id = "anaconda_venom_gem"` in Anaconda species config
+- Anaconda is Rare rarity (BEAST.md 046); Abyss zone placement means Leviathan Serpent is an endgame Stage 3 target
+- 200 Gold sell value — Abyss zone + Rare tier, but below the Legendary-tier materials (Dragon Scale, Phoenix Ash at 400 Gold)
+
+---
+
+### Consumables — Status Cure
+
+---
+
+### [039] Antidote
+
+| Field | Value |
+|---|---|
+| **Item ID** | `antidote` |
+| **Category** | Consumable — Status Cure |
+| **Stack Limit** | 999 |
+| **Buy Price** | 100 Silver |
+| **Sell Price** | 10 Silver |
+| **Use Context** | In battle or overworld |
+| **Target** | Any own pet (alive) |
+| **Effect** | Removes all active **Poison** and **Burn** stacks from the target pet immediately; all remaining DoT ticks cancelled |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); wild beast drop 5% (Nature/Fire-type beasts); dungeon monster drop 4% |
+
+> *"A bitter green liquid that neutralises Poison and Burn simultaneously. Smells like medicinal moss. Pets usually spit it out the first time. By the third time, they've accepted their fate."*
+
+**Dev Notes:**
+- `for i, effect in ipairs(pet.ActiveEffects) do if effect.name == "Poison" or effect.name == "Burn" then table.remove(pet.ActiveEffects, i) end end`
+- Antidote does NOT cure Armor Break, Blind, Shock, Freeze, or Bind
+- Poison: 5T, −3% MaxHP/turn; Burn: 3T, −5% MaxHP/turn — all remaining ticks cancelled on apply
+- Most common status cure; cheap at 100 Silver for early-zone Poison-heavy encounters (Nature beasts, Forest Cave monsters)
+
+---
+
+### [040] Remedy
+
+| Field | Value |
+|---|---|
+| **Item ID** | `remedy` |
+| **Category** | Consumable — Status Cure |
+| **Stack Limit** | 999 |
+| **Buy Price** | 150 Silver |
+| **Sell Price** | 15 Silver |
+| **Use Context** | In battle or overworld |
+| **Target** | Any own pet (alive) |
+| **Effect** | Removes all active **Blind** and **Shock** stacks from the target pet immediately |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); dungeon monster drop 3% from Dark/Electric-type enemies |
+
+> *"A vial of luminescent white fluid pressed from moonflower roots. Cures the dimness of Blind and the stuttering of Shock. If you can see the vial, you probably need it."*
+
+**Dev Notes:**
+- Remove all `effect.name == "Blind"` or `effect.name == "Shock"` entries from `pet.ActiveEffects`
+- Blind: 2T, 50% miss chance; Shock: 2T, −25% SPD
+- Slightly more expensive than Antidote (150 vs 100 Silver) — Shock's SPD debuff is strategically more impactful in PvP; price reflects utility
+- Primarily useful in Mountain/Abyss zones where Skeleton Shock and Specter Blind are common
+
+---
+
+### [041] Warming Herb
+
+| Field | Value |
+|---|---|
+| **Item ID** | `warming_herb` |
+| **Category** | Consumable — Status Cure |
+| **Stack Limit** | 999 |
+| **Buy Price** | 100 Silver |
+| **Sell Price** | 10 Silver |
+| **Use Context** | In battle only (overworld use has no effect) |
+| **Target** | Any own pet (alive or Frozen) |
+| **Effect** | Removes **Freeze** from the target pet; pet may act normally on their next turn; also removes **Bind** (Petrify/Bound) |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); wild beast drop 5% from Ice-type beasts; dungeon drop 3% from Mountain Ruins |
+
+> *"Dried spice bundle from the Volcano foothills. Burn it near a Frozen pet and watch the ice crack in seconds. Volcano hunters carry three. Mountain hunters carry ten."*
+
+**Dev Notes:**
+- Freeze: 1-turn skip at `ACTION_SELECT`; item is used by the trainer (not the pet), so a Frozen pet can still be targeted
+- Remove `effect.name == "Freeze"` and `effect.name == "Bind"` from `pet.ActiveEffects`; restore `pet.CanAct = true` for next turn
+- Bind (Petrify, Gorgon Gaze): 2T full immobilisation; Warming Herb is the only single-purpose cure for both Freeze and Bind
+- Does NOT cure Shock (a different SPD debuff entirely — use Remedy)
+
+---
+
+### [042] Full Cure
+
+| Field | Value |
+|---|---|
+| **Item ID** | `full_cure` |
+| **Category** | Consumable — Status Cure |
+| **Stack Limit** | 999 |
+| **Buy Price** | 500 Silver **or** 5 Gold (dual pricing) |
+| **Sell Price** | 50 Silver |
+| **Use Context** | In battle or overworld |
+| **Target** | Any own pet (alive) |
+| **Effect** | Removes **all** active negative status effects from the target pet: Poison, Burn, Freeze, Bind, Blind, Shock, Armor Break, Taunt |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); dungeon boss kill 10% bonus drop; rare bounty reward |
+
+> *"A multi-spectrum cure brewed by senior alchemists in the Hub. One dose handles everything. Worth it the moment a Basilisk Petrifies your best pet on turn one."*
+
+**Dev Notes:**
+- Iterates `pet.ActiveEffects` and removes all entries where `effect.debuff == true`; preserves positive effects (Regen, ATK buffs from items/skills)
+- Does NOT cleanse passives stored outside `ActiveEffects`: Constrictor aura (`anaconda`), Beaver Grand Levee, or any mechanic explicitly documented as uncleansable
+- Dual buy price: check Silver first; if `Silver < 500`, prompt Gold option
+- Premium status cure; three focused cures (Antidote/Remedy/Warming Herb) are cheaper alternatives for predictable encounters; Full Cure for emergencies or multi-status situations
+
+---
+
+### Consumables — Stat Boosters
+
+---
+
+### [043] Power Herb
+
+| Field | Value |
+|---|---|
+| **Item ID** | `power_herb` |
+| **Category** | Consumable — Stat Booster |
+| **Stack Limit** | 999 |
+| **Buy Price** | 200 Silver |
+| **Sell Price** | 20 Silver |
+| **Use Context** | In battle only |
+| **Target** | Any own pet (alive) |
+| **Effect** | Grants **+25% ATK** for **3 turns** (stored as a `buff` in `ActiveEffects`); stacks additively with multiple uses |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); dungeon monster drop 3%; expedition medium return (uncommon chance) |
+
+> *"A fistful of compressed red root extract. Pets that eat it get visibly agitated, then hit harder. The effect fades after three exchanges. The agitation fades after four."*
+
+**Dev Notes:**
+- `ActiveEffects:add({ name = "ATK_buff", magnitude = 0.25, turns_remaining = 3, debuff = false, source = "item" })`
+- Effective ATK: `effective_ATK = base_ATK * (1 + sum_of_ATK_buff_magnitudes)`
+- Two herbs: `+50%` ATK; internal ATK multiplier cap = `×3.0` total to prevent degenerate stacking
+- `source = "item"` flag means Full Cure can cleanse it; passive ATK gains (e.g., Pack Leader, Undying Grit) cannot be cleansed
+
+---
+
+### [044] Guard Stone
+
+| Field | Value |
+|---|---|
+| **Item ID** | `guard_stone` |
+| **Category** | Consumable — Stat Booster |
+| **Stack Limit** | 999 |
+| **Buy Price** | 200 Silver |
+| **Sell Price** | 20 Silver |
+| **Use Context** | In battle only |
+| **Target** | Any own pet (alive) |
+| **Effect** | Grants **+25% DEF** for **3 turns**; stacks additively with multiple uses |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); dungeon monster drop 3%; expedition medium return (uncommon chance) |
+
+> *"A palm-sized mineral lump with a faint blue sheen. Pets that absorb it briefly display a crystalline layer on their voxel model. The layer does nothing graphically useful but looks impressive."*
+
+**Dev Notes:**
+- `ActiveEffects:add({ name = "DEF_buff", magnitude = 0.25, turns_remaining = 3, debuff = false, source = "item" })`
+- Formula interaction with Armor Break: `effective_DEF = (base_DEF * DEF_buff_mult) * (1 - armor_break_reduction)` — Guard Stone buff applies before Armor Break reduction
+- Guard Stone and Armor Break are not counters; a 3-stack Armor Break (−90% DEF) still significantly reduces effective DEF even with a Guard Stone active
+- Caps at ×3.0 total DEF multiplier
+
+---
+
+### [045] Swift Root
+
+| Field | Value |
+|---|---|
+| **Item ID** | `swift_root` |
+| **Category** | Consumable — Stat Booster |
+| **Stack Limit** | 999 |
+| **Buy Price** | 200 Silver |
+| **Sell Price** | 20 Silver |
+| **Use Context** | In battle only |
+| **Target** | Any own pet (alive) |
+| **Effect** | Grants **+25% SPD** for **3 turns**; may affect turn order at next `TURN_START` sort |
+| **Turn Cost (Battle)** | None in Wild/NPC; costs a turn in PvP |
+| **Acquisition** | Item Shop (Hub); dungeon monster drop 3%; expedition medium return (uncommon chance) |
+
+> *"Thin green root chewed by hunters before long runs. Pets that eat it fidget, then act first. The SPD gain is real. The fidgeting is also real and mildly annoying."*
+
+**Dev Notes:**
+- `ActiveEffects:add({ name = "SPD_buff", magnitude = 0.25, turns_remaining = 3, debuff = false, source = "item" })`
+- Turn order: SPD changes mid-battle do NOT retroactively reorder the current turn; applied at next `TURN_START` sort
+- Swift Root (+25% SPD) and Shock debuff (−25% SPD) cancel at equal magnitude; net SPD = base SPD
+- Most impactful in PvP for speed-class pets (Wind/Fire) trying to guarantee turn priority
+- Caps at ×3.0 SPD multiplier
+
+---
+
+### Consumable — Revival
+
+---
+
+### [046] Revive Seed
+
+| Field | Value |
+|---|---|
+| **Item ID** | `revive_seed` |
+| **Category** | Consumable — Revival |
+| **Stack Limit** | 99 |
+| **Buy Price** | 30 Gold |
+| **Sell Price** | 5 Gold |
+| **Use Context** | In battle only; target must be fainted (0 HP) |
+| **Target** | Any own pet at 0 HP |
+| **Effect** | Revives the target pet at **50% Max HP**; pet re-enters turn order at the next `TURN_START` sort |
+| **Turn Cost (Battle)** | Costs a turn (Wild/NPC/PvP equally) |
+| **Acquisition** | Item Shop (Hub); dungeon boss kill 8% drop; expedition long return (rare) |
+
+> *"A smooth golden seed found only in deep dungeon caverns. Hunters debate whether it grows something or simply stores vitality. Nobody has planted one to check. The results on fainted pets are conclusive enough."*
+
+**Dev Notes:**
+- Use condition: `target.HP == 0 AND target.OwnerId == player.UserId` — cannot revive opponent's pet or a pet not in the current roster
+- `target.HP = math.floor(target.MaxHP * 0.50)`; `target.Fainted = false`; pet joins turn order at next `TURN_START`
+- Gold pricing (30 Gold) makes this scarce by design — Revive Seeds are emergency tools, not routine cycling
+- Out-of-battle KO recovery: pets return to 1 HP automatically on battle end; Revive Seed is exclusively a mid-battle mechanic
+- Does NOT restore Stamina; a revived pet may still have 0 Stamina and be unable to use skills
+
+---
+
+### Consumables — Overworld Utility
+
+---
+
+### [047] Beast Lure
+
+| Field | Value |
+|---|---|
+| **Item ID** | `beast_lure` |
+| **Category** | Consumable — Overworld Utility |
+| **Stack Limit** | 99 |
+| **Buy Price** | 300 Silver |
+| **Sell Price** | 30 Silver |
+| **Use Context** | Overworld only; activates immediately on use |
+| **Target** | Player (self) |
+| **Effect** | For **30 real-time minutes**: Uncommon encounter weight ×1.5, Rare weight ×2.0, Epic weight ×1.5; Common weight reduced proportionally |
+| **Duration** | 30 minutes (`PlayerData.LureExpiry = os.time() + 1800`) |
+| **Acquisition** | Item Shop (Hub); expedition long return (rare); seasonal event shop |
+
+| Zone | Normal Rarity Weights | With Lure Active |
+|---|---|---|
+| Forest | Common 60%, Uncommon 35%, Rare 5% | Common ~40%, Uncommon ~47%, Rare ~13% |
+| Mountain | Common 30%, Uncommon 50%, Rare 20% | Common ~18%, Uncommon ~67%, Rare ~15% (Rare already boosted by zone) |
+| Abyss | Common 0%, Uncommon 20%, Rare 40%, Epic 35%, Legendary 5% | Uncommon ~22%, Rare ~57%, Epic ~38%, Legendary ~7% |
+
+> *"A small emit-pod releasing a scent trail detectable by wild beasts. Rare ones approach instead of flee. Hunters use it when they're sick of encountering only Rabbits."*
+
+**Dev Notes:**
+- `BeastSpawnService`: check `os.time() < PlayerData.LureExpiry` at each spawn roll; apply boosted weight table if active
+- Multiple Beast Lures do NOT stack duration; second use resets timer to 30 min from current moment
+- Beast Lure and Beast Repellent (048) are mutually exclusive: applying one while the other is active cancels the prior effect and resets timer
+- Timer counts real time, not in-game time; continues during logout
+
+---
+
+### [048] Beast Repellent
+
+| Field | Value |
+|---|---|
+| **Item ID** | `repellent` |
+| **Category** | Consumable — Overworld Utility |
+| **Stack Limit** | 99 |
+| **Buy Price** | 200 Silver |
+| **Sell Price** | 20 Silver |
+| **Use Context** | Overworld only; activates immediately on use |
+| **Target** | Player (self) |
+| **Effect** | For **30 real-time minutes**: wild beast encounter probability reduced by **50%** per movement step; Hunt Energy cost still applies when an encounter triggers |
+| **Duration** | 30 minutes (`PlayerData.RepellentExpiry = os.time() + 1800`) |
+| **Acquisition** | Item Shop (Hub) |
+
+> *"A bitter spray that wild beasts find revolting. They avoid the wearer for about half an hour. Used by hunters crossing dangerous zones toward a dungeon entrance without burning through all their potions on the way."*
+
+**Dev Notes:**
+- `BeastSpawnService`: if `os.time() < PlayerData.RepellentExpiry`, multiply encounter roll probability by 0.50 before comparison
+- Does NOT prevent triggered encounters (dungeon waves, quest-required fights, scripted NPC battles)
+- Mutually exclusive with Beast Lure — applying Repellent cancels active Lure timer and vice versa
+- Primarily a traversal tool; no impact on dungeon interiors
+
+---
+
+### Consumables / Collectibles — Event & Special
+
+---
+
+### [049] Festival Coin
+
+| Field | Value |
+|---|---|
+| **Item ID** | `festival_coin` (varies per event: `winter_coin`, `harvest_coin`, etc.) |
+| **Category** | Collectible — Event Currency |
+| **Stack Limit** | 9,999 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | Cannot sell |
+| **Use Context** | Event Shop NPC only; active during seasonal event window |
+| **Target** | N/A |
+| **Effect** | Spent at the event shop for event-exclusive pets, cosmetics, and items; no function outside active event window |
+| **Acquisition** | All battle types during active event; event daily quests; seasonal Battle Pass tiers |
+
+| Battle Source | Festival Coin Yield |
+|---|---|
+| Wild beast victory | 2–5 per battle |
+| NPC trainer victory | 5–15 per battle |
+| Dungeon monster kill | 1–3 per monster |
+| Dungeon boss kill | 25–50 |
+| PvP win | 10–20 |
+| Daily quest completion | 30–80 per quest |
+
+> *"A copper disc stamped with this season's symbol. Useless after the festival ends. Worth everything during it."*
+
+**Dev Notes:**
+- Stored in `PlayerData.EventCurrency = { [event_coin_id] = quantity }` — separate sub-table from main `Inventory` to avoid consuming item slots
+- Event Shop NPC validates `os.time() < EventData.end_time` before allowing any purchase
+- Coins zeroed on event end via `EventService:EndEvent()` — players cannot carry coins to the next event
+- Item ID rotates per event for analytics segmentation; icon and display name change; underlying spend logic is identical
+- Battle Pass paid track typically grants 200–500 Festival Coins across its 50 tiers
+
+---
+
+### [050] Lucky Charm
+
+| Field | Value |
+|---|---|
+| **Item ID** | `lucky_charm` |
+| **Category** | Consumable — Boost |
+| **Stack Limit** | 99 |
+| **Buy Price** | 29 R$ (Robux Developer Product); seasonal Battle Pass Paid Tier 20 — 1× grant |
+| **Sell Price** | Cannot sell |
+| **Use Context** | Overworld or pre-battle setup; activates immediately on use |
+| **Target** | Player (self) |
+| **Effect** | For **1 real-time hour**: all drop rates (dungeon loot, field drops, boss species materials) increased by **+10%** multiplicatively |
+| **Duration** | 1 hour (`PlayerData.LuckyCharmExpiry = os.time() + 3600`) |
+| **Acquisition** | Robux Developer Product (29 R$); seasonal Battle Pass Paid Tier 20 |
+
+> *"A four-leaf clover pressed between two panes of enchanted glass. The luck inside isn't superstition — it's measurable. Hunters who run dungeons with one active collect noticeably more than those who don't."*
+
+**Dev Notes:**
+- Drop rate application: `drop_chance = base_drop_chance * 1.10` — independent multiplier applied after all other modifiers
+- Stacks with Hunter's VIP (+25% Silver/Gold), Capture Booster (capture rate only), and Dungeon Veteran (auto-collect) — each modifier is independent; Lucky Charm affects drop RNG, not Silver/Gold yield
+- `ProcessReceipt` adds `lucky_charm ×1` to inventory on Robux purchase
+- `DungeonService`, `BattleService`, and `CaptureService` all check `PlayerData.LuckyCharmExpiry` at reward calculation time
+
+---
+
+### Collectibles — World Drops
+
+---
+
+### [051] Shiny Scale
+
+| Field | Value |
+|---|---|
+| **Item ID** | `shiny_scale` |
+| **Category** | Collectible — Trophy |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 200 Silver |
+| **Gameplay Effect** | None |
+| **Acquisition** | Wild defeat of any scaled beast species (Snake, Turtle, Dragon, Koi, Anaconda) — 2% drop on battle victory; not from capture attempts |
+
+> *"A single perfect scale from a wild beast, iridescent in any light. No two are identical. Collectors offer good money — not as good as the Item Shop, which is why most hunters don't bother haggling."*
+
+**Dev Notes:**
+- Drop check: `if beast.species_has_tag("scaled") and math.random() < 0.02 then grant("shiny_scale", 1) end`
+- Tag `"scaled"` defined in species config for: Snake, Turtle, Dragon, Koi, Anaconda, and any future reptile/fish species
+- Drop happens on battle victory regardless of capture outcome; even a failed capture that ends the battle can yield a Shiny Scale
+- Not a boss-exclusive drop — designed as a common field collectible with modest Silver value
+
+---
+
+### [052] Emerald Feather
+
+| Field | Value |
+|---|---|
+| **Item ID** | `emerald_feather` |
+| **Category** | Collectible — Trophy |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 500 Silver |
+| **Gameplay Effect** | None |
+| **Acquisition** | Wild defeat of Wind or Nature element beast — 2% drop; wild defeat of any avian species (Hawk, Eagle, Parrot, Sparrow, Duck, Thunderbird) regardless of element — 3% drop |
+
+> *"A vivid green feather retaining a charge of elemental wind energy after the beast's defeat. It hums very faintly in still air. Nature hunters collect them. Everyone else just sells them."*
+
+**Dev Notes:**
+- Two independent trigger conditions (OR): `(beast.Element == "Wind" OR beast.Element == "Nature") → 2%`; `beast.species_has_tag("avian") → 3%`
+- If both conditions are true (e.g., Wind element Hawk): use the higher rate (3%), not additive
+- Tag `"avian"` applies to: Hawk, Eagle, Parrot, Sparrow, Duck, Thunderbird — defined in species config
+- 500 Silver sell value (2.5× Shiny Scale) reflects Wind/Nature beasts being slightly rarer and avian species requiring specific zone access
+
+---
+
+### [053] Void Shard
+
+| Field | Value |
+|---|---|
+| **Item ID** | `void_shard` |
+| **Category** | Collectible — Trophy |
+| **Stack Limit** | 99 |
+| **Buy Price** | Cannot buy |
+| **Sell Price** | 3,000 Silver |
+| **Gameplay Effect** | None |
+| **Acquisition** | Wild defeat of any beast in Abyss zone (`zone_abyss`) — 3% drop; wild defeat of Dark element beast in Abyss zone specifically — 5% drop |
+
+> *"A jagged shard of solidified void energy that forms in the Abyss. Hunters new to the zone pick them up as curiosities. Veterans pick them up and immediately sell them for 3,000 Silver each."*
+
+**Dev Notes:**
+- Drop logic: `base = 0; if beast.zone == "zone_abyss" then base = 0.03 end; if beast.zone == "zone_abyss" and beast.Element == "Dark" then base = 0.05 end`
+- Higher rate (0.05) used when both conditions met — not additive
+- 3,000 Silver sell value is highest field-drop collectible; rewards Abyss zone exploration beyond boss farming
+- EV calculation: ~10 wild encounters/session × 3% = ~0.30 expected shards → ~900 Silver EV from trophy drops/session
+- Lucky Charm (+10% drop rate) raises rates to 3.3% / 5.5% — relevant for active Abyss farmers
+
+---
+
 ## Evolution Material Usage Reference
 
 Quick-reference table for which species material is required per pet family Stage 3 evolution. All Stage 3 evolutions also require ×1 Evolution Crystal and 300 Gold.
@@ -771,8 +1444,18 @@ Quick-reference table for which species material is required per pet family Stag
 | Spirit Orb | `spirit_orb` | Kitsune | Celestial Kitsune | Abyssal Demon Lord boss 15% |
 | Blood Moon Stone | `blood_moon_stone` | Werewolf | Lycan Lord | Abyssal Demon Lord boss 15% |
 | Storm Feather | `storm_feather` | Thunderbird | Sky Sovereign | World event mirror match 5% |
+| Dragon Scale | `dragon_scale` | Dragon | Elder Dragon | Wild Dragon (Abyss) 10%; first capture 1× |
+| Phoenix Ash | `phoenix_ash` | Phoenix | Eternal Phoenix | Wild Phoenix (Volcano) 10%; first capture 1× |
+| Shadow Fang | `shadow_fang` | Tiger | Shadow Tiger | Wild White Tiger (Mountain) 8%; Lich King boss 5% |
+| King's Mane Lock | `kings_mane_lock` | Lion | Pride Sovereign | Wild Battle Lion (Mountain) 8%; Elder Treant boss 5% |
+| Tempest Quill | `tempest_quill` | Eagle | Tempest Eagle | Wild War Eagle (Forest/Mountain) 8%; Sky event chest |
+| Void Slime Core | `void_slime_core` | Slime | Slime Titan | Forest Cave Slime kill 3%; first Warchief clear 1× |
+| Ancient Shell Plate | `ancient_shell_plate` | Turtle | Titan Turtle | Wild Armored Turtle (Mountain) 8%; Skeleton kill 2% |
+| Fox Spirit Bead | `fox_spirit_bead` | Fox | Spirit Fox | Wild Trickster Fox (Forest) 8%; Hostile Fairy kill 2% |
+| Dire Pelt | `dire_pelt` | Dog | Dire Wolf | Wild Stage 2+ Wolf (Forest/Mountain) 8%; Goblin kill 2% |
+| Anaconda Venom Gem | `anaconda_venom_gem` | Anaconda | Leviathan Serpent | Wild King Anaconda (Abyss) 8%; Demon kill 3% |
 
-> Species materials not listed here have not yet been defined. All other pet families use a species material with `item_id = "<species>_<unique_token>"` to be documented as additional beasts are added.
+> Species materials not listed here are yet to be defined. All other pet families use a species material with `item_id = "<species>_<unique_token>"` to be documented as additional beasts are added.
 
 ---
 
