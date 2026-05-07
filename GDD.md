@@ -365,6 +365,66 @@ Time-limited events (holiday, anniversary, etc.) with exclusive content:
 - Event currency earned from all battles → spend at event shop
 - Event cosmetics and collectibles
 
+### 9.7 Title System
+
+Players equip **one active title** displayed above their name. Titles are the primary social flex tool — rare titles signal history, dedication, or generosity that cannot be bought with Gold alone.
+
+#### Title Categories
+
+| Category | Examples | Source |
+|---|---|---|
+| **Rank** | "Iron", "Adamantite", "Orichalcum" | Reach that PvP rank |
+| **Achievement** | "Grand Hunter", "Dungeon Clearer", "Brawler" | Complete achievements |
+| **Collection** | "Codex Master", "Dragon Tamer", "Legendary Keeper" | Codex milestones |
+| **Event** | "Festival Champion", "Shadow Slayer", "Seasonal Hero" | Win or complete events |
+| **Donor** | "Supporter", "Patron", "Benefactor", "Legend Donor" | Cumulative donation tiers |
+| **Social** | "Generous Soul", "Patron of the Wild" | Donate to other players |
+| **Special** | "Pioneer" (early player), "Tester", "Dev Friend" | Staff-granted, one-off |
+
+#### Title Rarity Visual
+
+Title text color and style indicates rarity:
+
+| Rarity | Style |
+|---|---|
+| Common | White plain text |
+| Uncommon | Green text |
+| Rare | Blue text |
+| Epic | Purple text |
+| Legendary | Gold animated gradient text |
+| Special | Rainbow animated text |
+
+Donor and special titles always render at Legendary or Special rarity regardless of account progression — visible distinction that rewards real support.
+
+### 9.8 Badge System
+
+Two distinct badge layers:
+
+#### Roblox Platform Badges
+Awarded via Roblox's official Badge system — permanently visible on the player's Roblox profile page. These persist even after leaving the game and serve as proof of achievement to the wider Roblox community.
+
+| Badge | Trigger |
+|---|---|
+| First Steps | Capture your first pet |
+| Beast Slayer | Defeat 100 wild beasts |
+| Dungeon Diver | Complete your first dungeon |
+| Boss Hunter | Defeat all 5 dungeon bosses |
+| PvP Champion | Reach Gold rank |
+| Adamantite Legend | Reach Adamantite rank |
+| Codex Complete | Capture all species |
+| True Supporter | Make first donation to any player |
+
+#### In-Game Badge Pins
+Small voxel badge icons pinned to the player's character model. Stackable — players can display up to 3 at once. Visible in the world to everyone nearby.
+
+| Badge Pin | Source |
+|---|---|
+| Rank crest (current rank icon) | Auto-updates with rank |
+| Dungeon star (# of bosses defeated) | Achievement |
+| Donor heart | Any donation made |
+| Event medal | Seasonal event completion |
+| Guild emblem | Guild membership |
+
 ---
 
 ## 10. Pet Showing Off
@@ -471,3 +531,182 @@ Seasonal events → exclusive Legendary pets → social flex
   ▼
 Pet Codex 100% → "Grand Hunter" title → Leaderboard top → prestige
 ```
+
+---
+
+## 15. Monetization
+
+All monetization is built on three principles:
+1. **No pay-to-win in PvP** — nothing purchasable gives a stat advantage over other players in combat
+2. **Everything earnable in-game** — paid items only accelerate or cosmetically enhance; never gate core content
+3. **Transparent** — no hidden odds; any random element shows exact probability
+
+---
+
+### 15.1 Robux as Premium Currency
+
+Roblox's native currency (R$) is used for all real-money purchases. Players buy Robux through Roblox platform. Developer earns 70% of Robux spent after DevEx.
+
+---
+
+### 15.2 Game Passes (One-Time Purchase)
+
+Permanent perks bought once with Robux.
+
+| Game Pass | Perks | Suggested Price |
+|---|---|---|
+| **Hunter's VIP** | +25% Silver & Gold from all battles, +1 daily quest slot, VIP badge on profile | 499 R$ |
+| **Pet Whisperer** | +10% flat capture rate bonus, no cooldown between capture attempts | 299 R$ |
+| **Double XP** | Pets earn 2× XP from all battle types permanently | 399 R$ |
+| **Expedition Master** | +2 expedition slots (1 → 3), expedition timers run 25% faster | 349 R$ |
+| **Dungeon Veteran** | +1 daily dungeon run per dungeon, auto-collect loot after each wave | 449 R$ |
+| **Battle Tactician** | Using items in PvP does not cost a turn | 299 R$ |
+| **Slot Booster** | Start with 10 pet slots instead of 2 | 199 R$ |
+
+> Game passes stack. A player with Hunter's VIP + Double XP gets both bonuses simultaneously.
+
+---
+
+### 15.3 Developer Products (Repeatable Purchases)
+
+Spent per-use with Robux. Main source of recurring revenue.
+
+#### Gold Bundles
+
+| Bundle | Gold Amount | Suggested Price |
+|---|---|---|
+| Small Pouch | 100 Gold | 49 R$ |
+| Medium Chest | 500 Gold | 199 R$ |
+| Large Vault | 2,000 Gold | 699 R$ |
+| Titan Hoard | 5,000 Gold | 1,499 R$ |
+
+#### Convenience Items
+
+| Product | Description | Suggested Price |
+|---|---|---|
+| **Energy Refill** | Restore full Hunt Energy immediately | 29 R$ |
+| **Dungeon Key** | One extra dungeon run beyond daily limit | 39 R$ |
+| **Capture Boost** | +20% capture rate for next 5 attempts | 19 R$ |
+| **XP Boost (1h)** | 3× XP for all pets for 1 hour | 49 R$ |
+
+---
+
+### 15.4 Cosmetic Shop
+
+Purely visual. No gameplay effect. Rotates weekly stock to create FOMO without pay-to-win.
+
+#### Pet Skins
+
+Alternate voxel models for a specific pet species. Applied to one pet; transferred if pet is released.
+
+| Skin Tier | Example | Price |
+|---|---|---|
+| Common Skin | Dog → Dalmatian, Slime → Crystal Slime | 99 R$ |
+| Rare Skin | Wolf → Shadow Wolf, Dragon → Gold Dragon | 249 R$ |
+| Legendary Skin | Phoenix → Inferno Phoenix (animated flames) | 499 R$ |
+
+#### Player Cosmetics
+
+| Item | Description | Price |
+|---|---|---|
+| Outfit sets | Full voxel armor/clothing sets | 149–299 R$ |
+| Pet accessories | Hats, wings, aura effects on your walking pets | 79–199 R$ |
+| Name tag styles | Colored or animated player name display | 49–99 R$ |
+| Emote packs | 3-emote bundles for social expression | 99 R$ |
+| Pet trails | Particle effect following your walking pet | 149 R$ |
+
+---
+
+### 15.5 Seasonal Battle Pass
+
+Runs alongside each seasonal event (~4 weeks). Two tracks:
+
+| Track | Cost | Content |
+|---|---|---|
+| **Free Track** (10 tiers) | Free | Silver, consumables, common trap, basic cosmetic |
+| **Paid Track** (50 tiers) | 499 R$ | All free rewards + exclusive event pet skin, Gold bundles, Evolution Crystals, unique title, animated pet accessory |
+
+- XP for both tracks earned from daily quests, battles, and dungeon runs
+- Paid track can be purchased any time during the event — retroactively unlocks already-earned paid tiers
+- Exclusive rewards never return to the shop after event ends
+
+---
+
+### 15.6 Roblox Premium Perks
+
+Passive bonuses for players with active Roblox Premium subscription (handled by Roblox platform, not Robux spend).
+
+| Perk | Description |
+|---|---|
+| +15% Silver bonus | All Silver earned from battles boosted |
+| Free daily Energy Refill | One free Hunt Energy restore per day |
+| Premium badge | Visible on player profile |
+| Early event access | 24-hour head start on seasonal events |
+
+---
+
+### 15.7 Donation System
+
+Two donation flows: **player-to-developer** (supports the game) and **player-to-player** (social tipping between players).
+
+#### Developer Donations
+
+Players donate directly to support the game's development. Implemented as fixed-price Robux game passes (not consumable — purely a donation vessel).
+
+| Donation Pass | Price | Reward |
+|---|---|---|
+| Supporter | 50 R$ | "Supporter" donor title + Donor Heart badge pin |
+| Patron | 250 R$ | "Patron" donor title (Epic purple) + exclusive Patron cosmetic |
+| Benefactor | 750 R$ | "Benefactor" title (Legendary gold) + exclusive Benefactor pet skin + badge |
+| Grand Patron | 2,000 R$ | "Grand Patron" title (Legendary animated) + all previous rewards + name on Donor Hall of Fame |
+| Legend Donor | 5,000 R$ | "Legend Donor" title (Special rainbow) + unique aura effect + permanent top-slot on Donor Hall of Fame |
+
+Donor tiers are **cumulative** — total Robux donated across all passes determines tier. A player who buys Supporter × 5 counts as 250 R$ total.
+
+#### Donor Hall of Fame
+
+Physical board in Town/Hub listing top donors by cumulative amount. Refreshes in real-time. Players walk past it daily — powerful social signal. Top 10 shown with name, title, and amount donated.
+
+#### Player-to-Player Donations
+
+Players can tip other players they admire (strong PvP fighter, impressive pet collection, generous trader). Implemented via per-player donation boards placed in the world or at a dedicated "Tip Jar" social area in Town/Hub.
+
+**Flow:**
+1. Player A visits Player B's profile or donation board
+2. Selects a tip amount (pre-set tiers)
+3. Roblox processes purchase — Player B earns Robux (70% after Roblox cut)
+4. Both players get social rewards
+
+| Tip Tier | Price | Sender Gets | Receiver Gets |
+|---|---|---|---|
+| Small Tip | 10 R$ | "Generous Soul" badge progress | Silver bonus |
+| Medium Tip | 50 R$ | "Generous Soul" badge progress | Silver + Gold bonus |
+| Big Tip | 150 R$ | "Generous Soul" badge progress | Exclusive "Most Tipped" leaderboard entry |
+| Mega Tip | 500 R$ | "Patron of the Wild" title | "Most Tipped" top slot + special thank-you effect |
+
+**Sender rewards accumulate** — reaching 1,000 R$ total tipped across all players unlocks the "Generous Soul" title (Legendary rarity).
+
+#### Most Tipped Leaderboard
+
+Weekly leaderboard in Town/Hub showing players who received the most tips that week. Winner gets "Weekly Favorite" cosmetic border for 7 days — resets next week. Strong incentive for skilled/famous players to show off and attract tips.
+
+---
+
+### 15.8 Revenue Model Summary
+
+| Source | Type | Revenue Driver |
+|---|---|---|
+| Game Passes | One-time | New player conversion |
+| Gold Bundles | Repeatable | Engaged mid-core players |
+| Convenience Products | Repeatable | Daily active grinders |
+| Cosmetic Shop | Repeatable | Social/vanity-driven players |
+| Battle Pass | Per-season | Retention + seasonal engagement |
+| Roblox Premium | Platform | Passive payout from Premium members |
+
+### 15.8 Ethical Guardrails
+
+- No loot boxes or gacha — all purchases show exact contents before buying
+- No exclusive gameplay-affecting skills, pets, or stats locked behind paywall
+- Wild-caught pets are always as strong as shop-bought pets at the same level
+- PvP matchmaking ignores purchased passes when calculating skill level
+- Capture rates, drop rates, and expedition yields displayed transparently in-game
