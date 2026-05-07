@@ -394,6 +394,18 @@ Bee  ──(Lv 20 + Evolution Shard)──►  Queen Bee  ──(Lv 100 + Evolut
 - Stinger Barrage + Royal Decree is the strongest multi-Poison setup in Common tier; monitor in PvP
 - Hive Lord's swarm particle cloud is a distinct visual from all other Common-tier Stage 3 models
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-007.1.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-007.2.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-007.3.jpg" />
+
 ---
 
 ## 008 · Slime `Common`
@@ -437,6 +449,18 @@ Slime  ──(Lv 20 + Evolution Shard)──►  Slime King  ──(Lv 100 + Evo
 - Prism Core drops from Mountain Ruins boss, 12% drop rate
 - Slime Titan's `Prism Burst` is the only skill that uses the pet's imbued element dynamically — dev must resolve element at cast time, not at skill definition time
 - Slime's visual colour reacting to its imbued element is a unique cosmetic behaviour; requires element-to-colour mapping in the CosmeticService
+
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-008.1.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-008.2.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-008.3.jpg" />
 
 ---
 
@@ -482,6 +506,18 @@ Octopus  ──(Lv 30 + Evolution Shard)──►  Giant Octopus  ──(Lv 150 
 - Eight Arms hitting 8× makes it the highest hit-count skill in the game; each hit is individually weak (×0.4) — verify damage cap isn't exploitable with Armor Break stacked
 - Kraken Spawn is the visual precursor to the Kraken Legendary beast; lore connection intentional
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-009.1.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-009.2.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-009.3.jpg" />
+
 ---
 
 ## 010 · Scorpion `Uncommon`
@@ -525,6 +561,18 @@ Scorpion  ──(Lv 30 + Evolution Shard)──►  Venom Scorpion  ──(Lv 15
 - Abyss Stinger drops from Volcano Pit boss (Orc Overlord), 11% drop rate
 - `Scorpion's Judgment` has a unique mechanic: it requires the target to already have Poison active to deal bonus damage; dev must implement a target-state check at cast time
 - Death Mark + Scorpion's Judgment + Venom Sting is the primary damage combo — high skill ceiling, strong PvP threat at Abyss Scorpion tier
+
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-010.1.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-010.2.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-010.3.jpg" />
 
 ---
 
@@ -570,6 +618,18 @@ Eagle  ──(Lv 50 + Evolution Shard)──►  War Eagle  ──(Lv 200 + Evol
 - Highest base SPD among all Rare tier at Stage 1 — faster than most Epic beasts until mid-level
 - Sky Domination's buff-strip effect resolves before damage calculation — dev must apply strip then recalculate target DEF before damage
 - Both Eagle `Talon Dive` and Tiger `Pounce` use the same "always-first" mechanic; if both are used in the same turn vs. each other, resolve by raw SPD as tiebreaker
+
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-011.1.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-011.2.jpg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-011.3.jpg" />
 
 ---
 
