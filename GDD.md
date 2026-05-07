@@ -694,6 +694,7 @@ Weekly leaderboard in Town/Hub showing players who received the most tips that w
 
 ### 15.8 Revenue Model Summary
 
+
 | Source | Type | Revenue Driver |
 |---|---|---|
 | Game Passes | One-time | New player conversion |
@@ -701,12 +702,17 @@ Weekly leaderboard in Town/Hub showing players who received the most tips that w
 | Convenience Products | Repeatable | Daily active grinders |
 | Cosmetic Shop | Repeatable | Social/vanity-driven players |
 | Battle Pass | Per-season | Retention + seasonal engagement |
+| Developer Donations | One-time (per tier) | Fans and supporters |
+| Player-to-Player Tips | Repeatable | Social economy, community engagement |
 | Roblox Premium | Platform | Passive payout from Premium members |
 
-### 15.8 Ethical Guardrails
+### 15.9 Ethical Guardrails
 
 - No loot boxes or gacha — all purchases show exact contents before buying
 - No exclusive gameplay-affecting skills, pets, or stats locked behind paywall
 - Wild-caught pets are always as strong as shop-bought pets at the same level
 - PvP matchmaking ignores purchased passes when calculating skill level
 - Capture rates, drop rates, and expedition yields displayed transparently in-game
+- Donor titles are social recognition only — zero stat or gameplay advantage
+- Player-to-player tipping is voluntary; no pressure mechanics or prompts mid-battle
+- Hall of Fame listing requires explicit player opt-in
