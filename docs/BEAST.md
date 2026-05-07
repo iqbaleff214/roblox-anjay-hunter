@@ -338,6 +338,18 @@ Turtle  ──(Lv 20 + Evolution Shard)──►  Armored Turtle  ──(Lv 100 
 - Ancient Shell Fragment drops from Mountain Ruins boss (Lich King), 10% drop rate
 - Stone Tortoise's `Seismic Shell` is the only Common-line skill that can inflict a turn skip — balance-check at Epic/Legendary PvP tiers
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-006.1.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-006.2.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-006.3.jpeg" />
+
 ---
 
 ## 007 · Bee `Common`
