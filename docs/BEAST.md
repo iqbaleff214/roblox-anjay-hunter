@@ -1212,3 +1212,453 @@ Shark  ──(Lv 50 + Evolution Shard)──►  Great White  ──(Lv 200 + Ev
 - Blood Frenzy passive is evaluated at the start of each turn — read `self.HP / self.MaxHP` and scan `target.ActiveEffects` for any DOT tag; apply the +20% modifier per condition to `ATK_modifier` before damage calculation
 - `Apex Strike` DEF bypass only applies when a DOT is present — dev must check `target.ActiveEffects` at cast time; if no DOT is active, skill deals normal damage with full DEF applied
 - Shark and Lion share identical base stats (both Rare Offensive) — differentiation is passive type (Blood Frenzy vs Pride) and skill archetype (DOT-exploitation vs ATK-stacking); confirm both passives are distinguishable in the in-game pet info UI
+
+---
+
+## 026 · Horse `Common`
+
+**Natural Affinity:** Neutral
+**Stat Build:** Speed
+**Habitat:** Open plains and dirt roads — `zone_starter`, `zone_forest`
+**Behaviour:** Passive. Grazes freely. Flees at moderate speed when approached — not as fast as Rabbit, but covers more ground. Stops fleeing if cornered against terrain.
+
+> *"The Horse does not ask where it is going. It asks whether it will be fast enough when it gets there."*
+
+**Evolution Chain:**
+```
+Horse  ──(Lv 20 + Evolution Shard)──►  Warhorse  ──(Lv 100 + Evolution Crystal + Stardust Mane)──►  Celestial Steed
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Horse | Brown voxel body, flowing mane, four-beat idle canter | — |
+| 2 | Warhorse | Darker coat, armored saddle plate, battle-scar markings, hoof-spark on stride | Iron Gallop |
+| 3 | Celestial Steed | White-gold translucent body, starlight mane and tail, comet-trail particle on movement | Stellar Charge |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 85 | 55 | 14 | 8 | 15 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Hoof Kick | Physical | 10 | ×1.2 | 30% Armor Break (DEF −30%, 2T) |
+| ★ | Gallop | Self-Buff | 12 | — | Own SPD +45%, 2T; next Physical skill this buff period gets +15% bonus damage |
+| | Trample | Physical | 18 | ×1.8 | If Gallop is active, hits 2× at ×1.0 each instead of single hit |
+| | Iron Gallop | Self-Buff | 20 | — | Own SPD +30% & DEF +20%, 2T; also restores 8 flat Stamina; unlocks at Stage 2 |
+| | Cavalry Charge | Physical | 26 | ×2.5 | Always-first this turn; damage +20% per active SPD buff on self |
+| | Stellar Charge | Physical | 40 | ×3.5 | Hits all enemies simultaneously in co-op dungeon context; single-target in PvP; Stage 3 only |
+
+**Lore Notes:**
+- Stardust Mane drops from Mountain Ruins boss (Lich King), 9% drop rate
+- `Trample` conditional hit-count requires `BattleService` to check `Gallop` buff presence at cast time before resolving attack — if Gallop is not active, treat as single-hit ×1.8
+- `Stellar Charge` multi-target in dungeon co-op is the only Common-tier skill with area effect; in PvP it falls back to single-target — zone/mode flag required at resolution
+- Horse and Cat share Speed build and same base SPD (15); Horse leans physical burst via Gallop combos, Cat leans dodge-counter — distinct playstyles
+
+---
+
+## 027 · Monkey `Common`
+
+**Natural Affinity:** Fire-lean
+**Stat Build:** Offensive
+**Habitat:** Forest canopies and vine-draped ruins — `zone_forest`
+**Behaviour:** Aggressive. Throws debris (cosmetic projectile) at the player from trees before descending to fight. Cannot be fled from once aggro starts — it chases relentlessly.
+
+> *"The Monkey has no plan. It has momentum, and in its experience, that has always been enough."*
+
+**Evolution Chain:**
+```
+Monkey  ──(Lv 20 + Evolution Shard)──►  Ape  ──(Lv 100 + Evolution Crystal + Ancient Knuckle)──►  Silverback
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Monkey | Small brown voxel, long arms, cheeky grin idle | — |
+| 2 | Ape | Larger, dark-grey, knuckle-walking stance, red-tipped fur | Knuckle Slam |
+| 3 | Silverback | Massive, silver-streaked black fur, chest-beating idle animation, volcanic smoke aura | King's Roar |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 90 | 50 | 18 | 8 | 12 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Rock Throw | Physical | 10 | ×1.2 | Ranged strike; 25% Armor Break (DEF −30%, 2T) |
+| ★ | Acrobatics | Self-Buff | 12 | — | 35% dodge chance, 2T; if dodge triggers, next attack gains +20% damage |
+| | Taunt Grab | Debuff | 15 | — | Forces target to attack Monkey next turn (Taunt); steals 10 SP from target on proc |
+| | Knuckle Slam | Physical | 22 | ×2.5 | 30% Armor Break; ignores DEF buffs on target; unlocks at Stage 2 |
+| | Jungle Frenzy | Physical | 25 | ×1.8 | Hits 3× at ×0.7 each; each hit has independent 20% chance to steal 5 SP from target |
+| | King's Roar | Self-Buff | 38 | — | Own ATK +50% & immune to Taunt for 3T; Stage 3 only |
+
+**Lore Notes:**
+- Ancient Knuckle drops from Forest Cave boss (Goblin Warchief), 8% drop rate
+- SP steal in `Jungle Frenzy` and `Taunt Grab` reduces target's current Stamina directly — cap stolen SP at target's current Stamina (cannot go negative); add stolen amount to Monkey's Stamina (cap at max)
+- `King's Roar` immunity to Taunt means Cerberus `Chain Pull` and Lion `King's Judgment` post-hit Taunt both fail against Silverback — flag as intentional rivalry counter
+- Monkey is the only Common beast with SP drain mechanics; confirm Stamina tracking is per-pet-per-battle in BattleState
+
+---
+
+## 028 · Deer `Common`
+
+**Natural Affinity:** Nature-lean
+**Stat Build:** Speed
+**Habitat:** Forest glades and sunlit clearings — `zone_starter`, `zone_forest`
+**Behaviour:** Skittish. Escape chance 65%. Grazes peacefully but bolts at any loud action nearby. If the player approaches slowly (no sprinting), aggro radius halves — flavour mechanic, does not affect battle.
+
+> *"The Deer does not run from danger. It simply prefers to be somewhere more pleasant, and it is very fast at deciding what that somewhere is."*
+
+**Evolution Chain:**
+```
+Deer  ──(Lv 20 + Evolution Shard)──►  Stag  ──(Lv 100 + Evolution Crystal + Sacred Antler)──►  Antler King
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Deer | Slender tan voxel, small nub antlers, alert ear-swivel idle | — |
+| 2 | Stag | Taller, full branching antlers, golden-brown coat, nature-petal particles | Forest Leap |
+| 3 | Antler King | Enormous antlers wreathed in vines and glowing leaves, emerald body shimmer, nature-aura trail | Ancient Grove |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 85 | 55 | 14 | 8 | 15 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Antler Charge | Physical | 12 | ×1.8 | 25% Armor Break (DEF −30%, 2T); deals extra ×0.3 if own SPD > target SPD |
+| ★ | Nature's Touch | Heal | 10 | — | Restores 15% own max HP; also removes one active Poison or Bleed |
+| | Serene Step | Self-Buff | 14 | — | Own SPD +25% & dodge +20%, 2T; triggers Regen +3% max HP/turn same duration |
+| | Forest Leap | Self-Buff | 16 | — | Own SPD +40%, 1T; next skill this turn costs 5 less SP; unlocks at Stage 2 |
+| | Regal Thrust | Physical | 24 | ×2.5 | 35% chance to Bind target (skip next turn); damage bonus +15% if Regen is active on self |
+| | Ancient Grove | Nature Elemental | 38 | — | Restores 35% own max HP + cures all debuffs + own ATK & SPD +25%, 3T; Stage 3 only |
+
+**Lore Notes:**
+- Sacred Antler drops from Dark Forest boss (Elder Treant), 10% drop rate — thematically fitting
+- `Antler Charge` SPD-comparison bonus reads raw SPD at turn start (before buffs); dev must cache `raw_SPD` at TURN_START before buff modifiers apply
+- `Ancient Grove` is the strongest single-target self-heal skill in Common tier; no direct damage component — Antler King is a sustain-SPD hybrid, not a healer; confirm this is the intended role
+- Deer, Cat, Horse, Rabbit all share Speed build in Common — each has a distinct identity: Deer = sustain-speed, Cat = dodge-counter, Horse = burst-charge, Rabbit = evasion-last-stand
+
+---
+
+## 029 · Panda `Common`
+
+**Natural Affinity:** Neutral
+**Stat Build:** Tank
+**Habitat:** Bamboo groves and misty highland forests — `zone_forest`, `zone_mountain`
+**Behaviour:** Passive. Sits eating bamboo (idle). Ignores the player even when approached within 3 studs. Once attacked, it slowly rises and retaliates with disproportionate force. Never retreats.
+
+> *"The Panda is not lazy. It is conserving energy for the exact moment it decides you are worth the effort."*
+
+**Evolution Chain:**
+```
+Panda  ──(Lv 20 + Evolution Shard)──►  Giant Panda  ──(Lv 100 + Evolution Crystal + Iron Bamboo)──►  War Panda
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Panda | Round black-white voxel, sitting idle with bamboo prop | — |
+| 2 | Panda | Giant build, thicker limbs, determined expression, bamboo staff carried | Bamboo Barrage |
+| 3 | War Panda | Armored black-and-red war paint, iron bamboo pauldrons, battle-ready stance, ember-eye glow | Iron Discipline |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 130 | 45 | 11 | 15 | 6 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Bamboo Swipe | Physical | 10 | ×1.2 | 30% Armor Break (DEF −30%, 2T) |
+| ★ | Bear Sit | Self-Buff | 8 | — | Own DEF +60%, 1T; own SPD −30% same turn; cannot act offensively while active (action locked to Buff/Heal only) |
+| | Lazy Roll | Self-Buff | 14 | — | 40% dodge chance, 2T; if dodge triggers, Panda recovers 8% max HP (it rolled away from damage into comfort) |
+| | Bamboo Barrage | Physical | 22 | ×1.8 | Hits 4× at ×0.5 each; each hit has 20% Armor Break proc; unlocks at Stage 2 |
+| | Panda Slam | Physical | 28 | ×2.5 | Damage scales with own DEF: +8% of own DEF as flat bonus (similar to Bear's Ancient Wrath but at Common scale) |
+| | Iron Discipline | Self-Buff | 36 | — | Own DEF +50% & ATK +40%, 3T; SPD penalty removed; Stage 3 only |
+
+**Lore Notes:**
+- Iron Bamboo drops from Forest Cave boss (Goblin Warchief), 12% drop rate
+- `Bear Sit` action-lock means the pet cannot use Attack, Skill (offensive), or Swap while the buff is active — only Buff/Heal skills and Use Item remain; dev must implement action filter on PLAYER_ACTION state
+- `Bear Sit` action-lock applies for 1T only — after the turn ends, all actions restore normally; the DEF bonus also expires at turn end
+- `Panda Slam` DEF-scaling capped at +100 flat for Common tier (vs Bear's +200 cap at Rare tier) — prevents cross-tier value scaling exploits
+
+---
+
+## 030 · Hamster `Common`
+
+**Natural Affinity:** Electric-lean
+**Stat Build:** Balanced
+**Habitat:** Underground burrow networks and hay-filled storage areas — `zone_starter`
+**Behaviour:** Skittish. Darts into burrow holes when startled. Respawns at burrow exit 5 seconds after fleeing. If the player waits at the exit, it re-engages with +10% ATK (annoyed).
+
+> *"The Hamster stores everything: food, energy, grievances. It will use all three against you at exactly the wrong moment."*
+
+**Evolution Chain:**
+```
+Hamster  ──(Lv 20 + Evolution Shard)──►  Robo Hamster  ──(Lv 100 + Evolution Crystal + Circuit Core)──►  Mech Hamster
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Hamster | Tiny round voxel, chubby cheeks, wheel-spinning idle | — |
+| 2 | Robo Hamster | Small mechanical suit, glowing visor, gear-tick particle, tiny rocket boosters on back | Power Surge |
+| 3 | Mech Hamster | Full bipedal mech frame, cannon arm, electric core visible in chest, arc-lightning aura | Mech Blast |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 100 | 50 | 15 | 10 | 10 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Nibble | Physical | 8 | ×1.2 | Fast strike; 25% Shock (SPD −25%, 2T) |
+| ★ | Wheel Dash | Self-Buff | 12 | — | Own SPD +20% & stores 1 Charge token (max 3 tokens) |
+| | Static Shock | Electric Elemental | 14 | ×1.2 | 40% Shock; consumes 1 Charge token for +×0.4 bonus damage per token consumed |
+| | Overclock | Self-Buff | 18 | — | Spends all Charge tokens; own ATK +15% per token spent, 2T; unlocks at Stage 2 |
+| | Power Surge | Electric Elemental | 26 | ×2.5 | Guaranteed Shock; also consumes all Charge tokens for +10% extra damage per token; unlocks at Stage 2 |
+| | Mech Blast | Electric Elemental | 40 | ×3.5 | Resets Charge tokens to 3 after use; Stage 3 only |
+
+**Lore Notes:**
+- Circuit Core drops from Mountain Ruins boss (Lich King), 9% drop rate
+- Charge token system requires a `ChargeTokens` field (int, 0–3) on PetBattleState; `Wheel Dash` increments it, `Static Shock`/`Overclock`/`Power Surge` consume it; `Mech Blast` sets it to 3 post-resolution
+- Token count must persist across turns within the same battle and reset to 0 at battle end
+- Hamster is the only Common beast with a build-and-spend resource mechanic; skill value is intentionally front-loaded toward late-battle use via `Overclock` or `Power Surge`
+
+---
+
+## 031 · Crab `Common`
+
+**Natural Affinity:** Water-lean
+**Stat Build:** Defensive
+**Habitat:** Rocky coastal tide pools and shallow river beds — `zone_starter`, `zone_forest`
+**Behaviour:** Territorial. Raises claws in warning stance when approached. Does not pursue if the player retreats beyond 10 studs — it returns to its spot and resets.
+
+> *"The Crab has lived on this exact rock for eleven years. You are welcome to try and move it."*
+
+**Evolution Chain:**
+```
+Crab  ──(Lv 20 + Evolution Shard)──►  Rock Crab  ──(Lv 100 + Evolution Crystal + Hardened Shell)──►  Titan Crab
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Crab | Small orange voxel, sideways walk, prominent claws | — |
+| 2 | Rock Crab | Larger, grey-stone shell texture, barnacle detail, heavier step | Claw Lock |
+| 3 | Titan Crab | Enormous, deep-sea red-black, glowing bioluminescent shell veins, water-jet particle on claw swing | Titan Crush |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 120 | 50 | 12 | 14 | 8 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Pincer Snap | Physical | 10 | ×1.2 | 35% Bind (skip target's next turn) |
+| ★ | Shell Guard | Self-Buff | 10 | — | Own DEF +45%, 2T; also 20% chance to reflect Physical damage |
+| | Bubble Blow | Water Elemental | 12 | ×0.8 | Target SPD −30%, 2T; 20% Shock |
+| | Counter Spike | Self-Buff | 16 | — | For 2T, any Physical hit on Crab deals ×0.5 Physical damage back to attacker (not elemental) |
+| | Claw Lock | Physical | 22 | ×1.8 | 50% Bind + Armor Break simultaneously; unlocks at Stage 2 |
+| | Titan Crush | Physical | 38 | ×3.5 | Damage +10% per active DEF buff on self; Stage 3 only |
+
+**Lore Notes:**
+- Hardened Shell drops from Forest Cave boss (Goblin Warchief), 8% drop rate
+- `Counter Spike` reflect is Physical type regardless of attacker element; resolves after incoming damage lands, before start of next turn; does not trigger on Elemental attacks
+- `Titan Crush` DEF-buff count reads number of active buff entries tagged `DEF` in `self.ActiveEffects` at cast time — each stacked DEF buff (e.g., Shell Guard + Counter Spike DEF component) counts separately; cap at +50% total bonus
+- Crab vs Frog: both Common Defensive; Crab is CC-lock and counter-spike, Frog is Poison DOT and absorb — different defensive identities
+
+---
+
+## 032 · Flamingo `Uncommon`
+
+**Natural Affinity:** Fire-lean
+**Stat Build:** Speed
+**Habitat:** Shallow volcanic salt flats and warm thermal pools — `zone_mountain`, `zone_volcano`
+**Behaviour:** Passive. Stands elegantly on one leg. Does not react to the player until physically engaged. When battle starts, performs a brief dance animation before the first turn — purely cosmetic but gives it a distinctive identity.
+
+> *"The Flamingo does not fight gracefully. It fights, and everything it does is graceful. There is a difference."*
+
+**Evolution Chain:**
+```
+Flamingo  ──(Lv 30 + Evolution Shard)──►  Crimson Flamingo  ──(Lv 150 + Evolution Crystal + Ember Feather)──►  Fire Dancer
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Flamingo | Pink voxel, long neck, one-leg idle, rounded beak | — |
+| 2 | Crimson Flamingo | Deep crimson feathers, ember sparks at wingtips, graceful head-bob animation | Crimson Waltz |
+| 3 | Fire Dancer | Blazing orange-gold plumage, fire-ribbon trail on movement, heat-shimmer aura around feet | Inferno Pirouette |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 110 | 70 | 19 | 11 | 20 |
+
+**Growth / Lv:** +7 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Elegant Kick | Physical | 10 | ×1.2 | 30% Armor Break (DEF −30%, 2T); animation: spinning leg sweep |
+| ★ | Flamingo Stance | Self-Buff | 12 | — | 40% dodge chance, 2T; if dodge triggers, auto-counters with Fire Elemental hit at ×0.8 |
+| | Wing Whip | Physical | 15 | ×1.8 | 25% Burn (−5% max HP/turn, 3T) |
+| | Crimson Waltz | Self-Buff | 18 | — | Own SPD +35% & ATK +20%, 2T; also 20% Burn on any hit made during this buff window; unlocks at Stage 2 |
+| | Fire Pirouette | Fire Elemental | 28 | ×2.5 | Hits 3× at ×0.9 each; each hit has 30% Burn chance independently |
+| | Inferno Pirouette | Fire Elemental | 42 | ×3.5 | 60% Burn + own SPD doubled for 1T after cast; Stage 3 only |
+
+**Lore Notes:**
+- Ember Feather drops from Volcano Pit boss (Orc Overlord), 9% drop rate
+- `Flamingo Stance` fire counter-attack is not a separate turn — resolves within the same turn as the incoming hit, identical to Cat's `Dodge Roll` counter mechanic; share implementation
+- `Crimson Waltz` Burn-on-hit applies to all Physical and Elemental hits made during the buff duration at 20% proc rate — dev must tag active buff and add proc check in all damage resolution paths during those turns
+- Flamingo is the only Uncommon Speed beast with Fire affinity; Bat (Dark) and Fox (Dark) are the other Speed Uncommons — all three have a debuff/control identity but different elements
+
+---
+
+## 033 · Armadillo `Uncommon`
+
+**Natural Affinity:** Earth-lean
+**Stat Build:** Tank
+**Habitat:** Arid scrubland and rocky desert ravines — `zone_mountain`
+**Behaviour:** Passive. Rolls into a ball if the player runs directly toward it (cosmetic). Only unrolls and fights if actually attacked. Cannot flee — when threatened, it curls tighter.
+
+> *"The Armadillo decided long ago that the best response to most problems was to become briefly spherical. This has worked more often than it has any right to."*
+
+**Evolution Chain:**
+```
+Armadillo  ──(Lv 30 + Evolution Shard)──►  Iron Armadillo  ──(Lv 150 + Evolution Crystal + Fortress Plate)──►  Fortress Beast
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Armadillo | Small grey-brown voxel, plated segments, tucked curl idle | — |
+| 2 | Iron Armadillo | Larger, darker iron-grey plating, visible bolt-head details, heavy thud on each step | Rolling Charge |
+| 3 | Fortress Beast | Massive, obsidian-plated, spikes protruding from shell, seismic tremor on footfall, stone-dust particle | Fortress Mode |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 165 | 55 | 15 | 22 | 8 |
+
+**Growth / Lv:** +7 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Spike Slam | Physical | 12 | ×1.2 | 35% Armor Break (DEF −30%, 2T); spikes make contact before body |
+| ★ | Defensive Roll | Self-Buff | 10 | — | Own DEF +55%, 1T; own SPD −20% same turn; reflects 15% Physical damage |
+| | Counter Plate | Self-Buff | 16 | — | For 2T, any hit on Armadillo triggers Earth Elemental counter at ×0.5 (not Physical — elemental variant of Crab's Counter Spike) |
+| | Iron Body | Self-Buff | 20 | — | Own DEF +40% & immune to Armor Break for 3T; also Regen +4% max HP/turn |
+| | Rolling Charge | Physical | 26 | ×2.5 | Always-first this turn; damage uses DEF as ATK supplement: +5% DEF as flat bonus; unlocks at Stage 2 |
+| | Fortress Mode | Self-Buff | 40 | — | Own DEF +80%, immune to all status effects, 3T; ATK halved during buff; Stage 3 only |
+
+**Lore Notes:**
+- Fortress Plate drops from Dark Forest boss (Elder Treant), 10% drop rate
+- `Counter Plate` Earth Elemental counter distinguishes it from Crab's `Counter Spike` (Physical) — both reflect, but Armadillo's counter respects elemental matchups; implement as a tagged Elemental hit, not a raw damage value
+- `Rolling Charge` always-first mechanic joins Tiger Pounce / Eagle Talon Dive / Horse Cavalry Charge family — same tiebreaker rule (raw SPD) when multiple always-first skills clash in PvP
+- `Fortress Mode` ATK halving is not a debuff — it is a self-imposed modifier that cannot be removed by Purify or similar debuff-clear skills; store as a separate `self_modifier` flag distinct from `ActiveEffects`
+
+---
+
+## 034 · Crocodile `Rare`
+
+**Natural Affinity:** Water-lean
+**Stat Build:** Tank
+**Habitat:** Murky river deltas and submerged cave banks — `zone_mountain`, `zone_volcano`
+**Behaviour:** Predatory. Lies motionless on riverbanks — visually indistinguishable from a log until the player steps within 4 studs. Then lunges instantly with no warning animation. Cannot be fled from.
+
+> *"The Crocodile has not needed to evolve in two hundred million years. It would like you to know this before you decide to fight it."*
+
+**Evolution Chain:**
+```
+Crocodile  ──(Lv 50 + Evolution Shard)──►  Nile Croc  ──(Lv 200 + Evolution Crystal + Primordial Scale)──►  Ancient Croc
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Crocodile | Long dark-green voxel, ridged back, low-to-ground stance | — |
+| 2 | Nile Croc | Larger, scarred armored hide, yellow slit-pupil eyes, water-drip particle | Death Roll |
+| 3 | Ancient Croc | Massive, fossil-grey with orange mineral veins in hide, ambient stone-crack particle, jaw emits steam | Primordial Wrath |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 220 | 75 | 20 | 30 | 10 |
+
+**Growth / Lv:** +10 HP · +4 Sta · +4 ATK · +3 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Ambush Lunge | Physical | 14 | ×2.5 | On turn 1 of battle only, deals ×2.5; on all subsequent turns, deals ×1.2 (ambush bonus expires) |
+| ★ | Armored Scales | Self-Buff | 10 | — | Own DEF +50%, 2T; also reduces Bleed and Burn tick damage by 50% while active |
+| | Tail Sweep | Physical | 18 | ×1.8 | 40% Shock (SPD −25%, 2T); wide arc hits cosmetically |
+| | Swamp Drag | Debuff | 20 | — | Target SPD −40% & 30% Bind, 2T; flavour: drags target into swamp |
+| | Death Roll | Physical | 30 | ×2.5 | 50% Bind (skip next turn) + 30% Bleed DOT; unlocks at Stage 2 |
+| | Primordial Wrath | Physical | 42 | ×3.5 | Ignores 40% of target DEF; damage +20% if own HP > 70% (punishes early aggression); Stage 3 only |
+
+**Lore Notes:**
+- Primordial Scale drops from Volcano Pit boss (Orc Overlord), 13% drop rate
+- `Ambush Lunge` turn-check reads `battle_turn_counter == 1` at cast time; after turn 1, power permanently falls to ×1.2 for that battle — dev must track this per-pet-per-battle, not globally
+- `Armored Scales` DOT damage reduction is a multiplicative modifier on Burn and Bleed tick calculations — apply as `tick_damage × 0.5` during Armored Scales active turns
+- Crocodile and Bear (012) share identical base stats (both Rare Tank); Crocodile is ambush-and-lock, Bear is ATK-scaling-with-DEF — distinct combat roles; flag in balance review
+
+---
+
+## 035 · Manticore `Epic`
+
+**Natural Affinity:** Dark-lean
+**Stat Build:** Offensive
+**Habitat:** Cursed cliffside ruins and dark volcanic canyons — `zone_abyss`
+**Behaviour:** Aggressive. Patrols elevated terrain. Launches ranged spine volley (cosmetic) before descending into melee range. Does not stop attacking until the battle ends — no retreat, no hesitation.
+
+> *"Lion's body. Scorpion's tail. Bat's wings. The Manticore did not ask to be three things. It simply became the most efficient version of all of them."*
+
+**Evolution Chain:**
+```
+Manticore  ──(Lv 75 + Evolution Shard)──►  Blood Manticore  ──(Lv 300 + Evolution Crystal + Chaos Heart)──►  Celestial Manticore
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Manticore | Large lion-voxel body, scorpion tail, bat wings folded at rest, mane of spines | — |
+| 2 | Blood Manticore | Crimson-stained mane, dripping scorpion tail, wings spread wider, blood-drop particle | Manic Frenzy |
+| 3 | Celestial Manticore | Dark-gold plating over lion form, radiant scorpion tail, ethereal dark-light wings, chaos-energy aura | Chaos Manifestation |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 195 | 110 | 45 | 20 | 27 |
+
+**Growth / Lv:** +14 HP · +6 Sta · +6 ATK · +4 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Lion Mauling | Physical | 15 | ×1.8 | 35% Armor Break (DEF −30%, 2T); lion-body strike |
+| ★ | Scorpion Tail | DOT | 16 | — | Inflicts Poison (−3% max HP/turn, 5T) + 25% Armor Break; scorpion element |
+| | Bat Screech | Debuff | 14 | — | 50% Blind, 2T; target ATK −20%, 2T; bat-wing vocal |
+| | Spine Volley | Physical | 22 | ×1.8 | Hits 3× at ×0.7 each; each hit independently rolls 25% Poison |
+| | Manic Frenzy | Physical | 32 | ×2.5 | Damage +15% for each active debuff currently on target (Poison, Blind, Armor Break each count separately); unlocks at Stage 2 |
+| | Chaos Manifestation | Dark Elemental | 44 | ×3.5 | Inflicts all three: Poison (5T) + Blind (2T) + Armor Break (2T) simultaneously; Stage 3 only |
+
+**Lore Notes:**
+- Chaos Heart drops from Abyss Rift boss (Abyssal Demon Lord), 7% drop rate
+- `Manic Frenzy` debuff count scans `target.ActiveEffects` at cast time and counts distinct debuff entries — Poison, Blind, and Armor Break are 3 separate entries; if all three are active, bonus is +45%; cap at +60% (4 debuffs) to prevent extreme stacking
+- `Chaos Manifestation` applies all three debuffs sequentially before damage resolves — dev must apply effects array first, then calculate damage (so Armor Break's DEF reduction is factored into the same hit)
+- Manticore is the only Epic beast that combines three distinct debuff types (Poison/DOT, Blind/accuracy, Armor Break/DEF) in a single kit; designed as the universal debuffer at Epic tier
