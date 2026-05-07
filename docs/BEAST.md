@@ -57,6 +57,18 @@ Dog  ──(Lv 20 + Evolution Shard)──►  Wolf  ──(Lv 100 + Evolution C
 - Dire Fang drop location: Forest Cave dungeon boss (Goblin Warchief), 10% drop rate
 - Strong PvP utility via SPD debuff chain (Bark → Fang Rush)
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-001.1.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-001.2.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-001.3.jpeg" />
+
 ---
 
 ## 002 · Fox `Uncommon`
@@ -101,6 +113,18 @@ Fox  ──(Lv 30 + Evolution Shard)──►  Nine-Tail Fox  ──(Lv 150 + Ev
 - Highest base SPD of all Uncommon tier at Stage 1
 - Celestial Fox is a social prestige pet — its 9-tail particle effect is visible from a distance
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-002.1.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-002.2.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-002.3.jpeg" />
+
 ---
 
 ## 003 · Tiger `Rare`
@@ -144,6 +168,18 @@ Tiger  ──(Lv 50 + Evolution Shard)──►  White Tiger  ──(Lv 200 + Ev
 - Shadow Claw drops from Volcano Pit boss (Orc Overlord), 12% drop rate
 - Highest single-turn burst damage among Rare tier via Pounce + Hunter's Mark combo
 - Difficult to capture (Rare rarity modifier ×2.5); recommend Gold Trap at 1 HP remaining
+
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-003.1.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-003.2.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-003.3.jpeg" />
 
 ---
 
