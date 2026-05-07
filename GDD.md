@@ -32,13 +32,17 @@ Players explore a voxel world, hunting and capturing wild animals/beasts to keep
 
 ### 4.1 Reputation & Ranking
 
-Player reputation rank increases by winning PvP battles. Ranks are tiered (e.g., Bronze → Silver → Gold → Platinum → Diamond → Legend).
+Player reputation rank increases by winning PvP battles. Ranks from lowest to highest:
+
+**Copper → Iron → Silver → Gold → Platinum → Mithril → Orichalcum → Adamantite**
 
 | Battle Type | Reward |
 |---|---|
 | Wild Beast | Capture beast as pet |
 | NPC | Silver / Gold currency |
 | Other Player | Reputation points → rank progress |
+
+PvP uses **open challenge** — any player can challenge any other player directly in the world.
 
 ### 4.2 Inventory
 
@@ -65,6 +69,7 @@ Three item categories:
 
 - Default: **2 pet slots**
 - Upgradable via currency or special items
+- Maximum cap: **500 pet slots**
 
 ### 5.2 Species
 
@@ -83,7 +88,7 @@ Each species has a fixed **skill pool** from which default and buyable skills ar
 | Attribute | Description |
 |---|---|
 | **HP** | Health Points — pet knocked out when 0 |
-| **Stamina** | Fuel for skills; regenerates between turns/battles |
+| **Stamina** | Fuel for skills; regenerates fully at start of each battle |
 | **Attack** | Base physical damage output |
 | **Defense** | Damage reduction from incoming hits |
 | **Speed** | Determines turn order in battle |
@@ -94,58 +99,65 @@ Each species has a fixed **skill pool** from which default and buyable skills ar
 - Max level: **1000**
 - XP gained from battles (wild, NPC, PvP)
 - Each level-up increases base attributes
-- Certain level thresholds unlock:
-  - Element imbuing eligibility
-  - Additional skill slot purchases
+- **Level 50**: element imbuing becomes available for all species
 
 ### 5.5 Elements
 
-Imbued at a specific level threshold (exact level TBD per species).
+Pet can be imbued with one element at **level 50+**. Elements follow a weakness/strength chart inspired by Dragon City — every element is strong against at least one and weak against at least one.
 
-| Element | Weakness | Strength |
+| Element | Strong Against | Weak Against |
 |---|---|---|
-| Fire | Water | Earth |
-| Water | Earth | Fire |
-| Earth | Fire | Water |
-| *(expand)* | ... | ... |
+| **Fire** | Nature, Ice, Metal | Water |
+| **Water** | Fire, Earth | Electric |
+| **Nature** | Water, Earth | Fire |
+| **Earth** | Electric, Metal | Nature |
+| **Electric** | Water, Ice | Earth |
+| **Ice** | Nature, Wind | Fire |
+| **Metal** | Ice, Wind | Fire |
+| **Dark** | Electric, Nature | Light |
+| **Light** | Dark, Metal | Dark |
+| **Wind** | Earth, Water | Ice |
 
-Element adds elemental bonus to attacks and may unlock element-specific skills.
+- **Strong against** = deals bonus damage
+- **Weak against** = takes bonus damage
+- No element = neutral damage in both directions
+- Imbuing also unlocks access to element-specific skills in the skill shop
 
 ### 5.6 Skill System
 
 **Default skills:** Every pet spawns with 2 skills tied to its species.
 
-**Skill slots:** Upgradable — default 2 slots, purchase additional slots with currency.
+**Skill slots:** Default 2 slots; purchase additional slots with Gold. No hard cap defined — scales with currency investment.
 
-**Buying skills:** Skills purchasable from shop (pet skill shop or dedicated skill shop).
+**Buying skills:** Skills purchasable from the Skill Shop (separate counter inside Pet Shop or standalone).
 
-**Skill management:** Player equips/unequips skills into available slots.
+**Skill management:** Player equips/unequips skills from their pet's learned pool into active slots.
 
-**Stamina cost:** Every skill has a stamina cost; pet cannot use skill if stamina insufficient.
+**Stamina cost:** Every skill has a stamina cost; pet cannot use a skill if stamina is insufficient.
 
 | Action | Description |
 |---|---|
 | Default skills | 2 per pet, species-based, pre-equipped |
 | Buy skill | Spend currency to add to pet's skill pool |
 | Equip skill | Assign from pool to an active slot |
-| Upgrade slot | Spend currency to unlock additional slot |
+| Upgrade slot | Spend Gold to unlock additional active slot |
 
 ---
 
 ## 6. Battle System
 
-Turn-based combat. Player selects action each turn.
+Turn-based combat. Player selects one action per turn.
 
 ### 6.1 Turn Order
 
-Determined by **Speed** attribute. Higher speed acts first.
+Determined by **Speed** attribute. Higher speed acts first. On equal Speed, resolve randomly.
 
 ### 6.2 Actions Per Turn
 
 - **Attack** — basic physical hit (uses Attack vs Defense)
 - **Use Skill** — consumes stamina, applies skill effect
 - **Use Item** — consume item from inventory mid-battle
-- **Swap Pet** — switch to another owned pet (costs turn)
+- **Swap Pet** — switch to another owned pet (costs the turn)
 - **Flee** — attempt escape (only valid vs wild beasts)
 
 ### 6.3 Battle Types
@@ -154,27 +166,54 @@ Determined by **Speed** attribute. Higher speed acts first.
 |---|---|---|---|
 | **Wild Hunt** | Roaming beast | Capture beast as pet | None |
 | **NPC Battle** | Scripted trainer | Silver / Gold | None |
-| **PvP** | Other player | Reputation points | Reputation loss (minor) |
+| **PvP** | Other player | Reputation points | Minor reputation loss |
 
 ### 6.4 Capture Mechanic (Wild Hunt)
 
-- Trigger capture attempt when wild beast is low HP
-- Capture success rate influenced by: beast HP remaining, player capture item used, beast rarity
-- On capture: beast added to player's pet roster (if slot available)
+Capture attempt triggers when wild beast HP is low. Uses a **Trap item** from inventory.
+
+**Success formula:**
+
+```
+capture_chance = base_rate × (1 - current_hp / max_hp) × (1 / rarity_modifier)
+```
+
+| Trap Item | Base Rate | Rarity Modifier |
+|---|---|---|
+| Basic Trap | 30% | ×1.0 |
+| Iron Trap | 50% | ×1.0 |
+| Gold Trap | 70% | ×0.8 (better on rares) |
+| Legend Trap | 90% | ×0.5 (best on legendaries) |
+
+- Lower beast HP = higher chance
+- Higher beast rarity = harder to capture
+- On success: beast added to roster if slot available; otherwise must release a pet first
+
+### 6.5 NPC Difficulty by Zone
+
+| Zone | Pet Level Range | Currency Reward |
+|---|---|---|
+| Starter Plains | 1 – 20 | Low Silver |
+| Forest | 21 – 100 | Medium Silver |
+| Mountain | 101 – 300 | High Silver / Low Gold |
+| Volcano | 301 – 600 | Medium Gold |
+| Abyss | 601 – 1000 | High Gold |
+
+NPC trainers in each zone field pets scaled to that zone's level range.
 
 ---
 
 ## 7. Pet Showing Off
 
-- Pets walk alongside player in the world (visible to others)
-- Players see equipped pets as social status flex
-- Cosmetic items on player complement aesthetic display
+- Pets walk alongside player in the world (visible to all)
+- Players see equipped pets as social status display
+- Cosmetic items on player complement the aesthetic
 
 ---
 
 ## 8. Shop System
 
-Two distinct shop types — no cross-selling.
+Two distinct shop types — no cross-selling between them.
 
 ### 8.1 Item Shop
 
@@ -183,61 +222,64 @@ Sells: consumables, collectibles, cosmetics
 | Stock | Currency |
 |---|---|
 | HP/Stamina restore items | Silver |
+| Trap items (Basic, Iron, Gold, Legend) | Silver / Gold |
 | Rare collectibles | Gold |
 | Cosmetic gear | Silver / Gold |
 
 ### 8.2 Pet Shop
 
-Sells/buys: pets directly
+Sells/buys: pets directly. Includes a **Skill Shop** counter for purchasing pet skills.
 
 | Action | Description |
 |---|---|
-| Buy | Purchase pre-caught pets from shop stock |
-| Sell | Sell player-owned pets for currency |
+| Buy Pet | Purchase pre-caught pets from rotating stock |
+| Sell Pet | Sell player-owned pets for currency |
+| Buy Skill | Purchase skills for a specific species |
+| Upgrade Slot | Buy additional skill slots for a pet |
 
 Regular stock rotates; rare/legendary pets cost Gold.
 
 ---
 
-## 9. Progression Summary
+## 9. Guild / Clan System *(Future Scope)*
 
-```
-New Player
-  └─ 2 pet slots
-  └─ No pets, basic currency
-      │
-      ▼
-Explore wild area → battle beast → capture first pet
-      │
-      ▼
-Train pet (battles for XP) → level up → stronger attributes
-      │
-      ▼
-Buy skills / upgrade skill slots
-      │
-      ▼
-Reach element unlock threshold → imbue element
-      │
-      ▼
-Challenge other players → earn reputation → climb rank
-      │
-      ▼
-Upgrade pet capacity → collect more species
-      │
-      ▼
-Max level 1000 legendary beast → Legend rank → endgame flex
-```
+- Players form guilds with a name and banner
+- Guild battles (guild vs guild) for territory or leaderboard placement
+- Guild chat and shared storage (collectibles / items)
+- Guild rank separate from player rank
+- Implementation deferred to post-launch
 
 ---
 
-## 10. Open Design Questions
+## 10. Progression Summary
 
-- Exact level threshold for element imbuing per species: 50
-- Maximum pet slot cap (after all upgrades): 100
-- Full rank tier list and reputation thresholds: Adamantite, Orichalcum, Mithril, Platinum, Gold, Silver, Iron, Copper
-- Stamina regen rate (per turn? per battle? time-based?): per battle
-- PvP matchmaking method (open challenge vs ranked queue): open challenge
-- Full element table (beyond Fire/Water/Earth): use dragon city elements also use their concept certain element is weak againt other element
-- Capture item types and success rate formula: you decide
-- NPC difficulty scaling by zone: you decide
-- Guild / clan system (future scope?): yes
+```
+New Player
+  └─ 2 pet slots (max 100)
+  └─ No pets, basic currency
+      │
+      ▼
+Explore wild area → use Trap on low-HP beast → capture first pet
+      │
+      ▼
+Battle NPCs in Starter Plains → earn Silver → level up pet
+      │
+      ▼
+Buy skills / upgrade skill slots at Pet Shop
+      │
+      ▼
+Reach level 50 → imbue element → unlock element skills
+      │
+      ▼
+Challenge other players (open challenge) → earn reputation → climb rank
+      Copper → Iron → Silver → Gold → Platinum → Mithril → Orichalcum → Adamantite
+      │
+      ▼
+Upgrade pet capacity → explore higher zones → capture rarer species
+      │
+      ▼
+Farm Abyss zone NPCs for Gold → acquire legendary pets (Dragon, Phoenix)
+      │
+      ▼
+Max level 1000 legendary beast → Adamantite rank → endgame flex
+```
