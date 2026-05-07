@@ -282,6 +282,18 @@ Whelp  ──(Lv 100 + Evolution Shard)──►  Drake  ──(Lv 500 + Evoluti
 - Ancient Fury bypassing elemental resistance is the only skill in the game with this property — flag for balance review before ship
 - Whelp spawn rate in `zone_abyss`: ~0.5% per wild encounter roll (extremely rare; most players obtain via Pet Shop during seasonal events)
 
+**Illustration:**
+
+<img width="250px" src="./images/anjay-beast-005.1.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-005.2.jpeg" />
+
+<br />
+
+<img width="250px" src="./images/anjay-beast-005.3.jpeg" />
+
 ---
 
 ## 006 · Turtle `Common`
