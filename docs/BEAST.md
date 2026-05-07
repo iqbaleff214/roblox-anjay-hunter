@@ -1722,3 +1722,714 @@ Manticore  ──(Lv 75 + Evolution Shard)──►  Blood Manticore  ──(Lv 
 - `Manic Frenzy` debuff count scans `target.ActiveEffects` at cast time and counts distinct debuff entries — Poison, Blind, and Armor Break are 3 separate entries; if all three are active, bonus is +45%; cap at +60% (4 debuffs) to prevent extreme stacking
 - `Chaos Manifestation` applies all three debuffs sequentially before damage resolves — dev must apply effects array first, then calculate damage (so Armor Break's DEF reduction is factored into the same hit)
 - Manticore is the only Epic beast that combines three distinct debuff types (Poison/DOT, Blind/accuracy, Armor Break/DEF) in a single kit; designed as the universal debuffer at Epic tier
+
+---
+
+## 036 · Sparrow `Common`
+
+**Natural Affinity:** Wind-lean
+**Stat Build:** Speed
+**Habitat:** Treetops and open clearings near the starter village — `zone_starter`, `zone_forest`
+**Behaviour:** Passive. Perches on branches and idle hops along the ground. Flies off instantly when the player approaches within 5 studs — fastest flee animation of any Common beast, but short flee distance. Easy to re-engage.
+
+> *"The Sparrow does not fight to win. It fights to still be flying when everything else has stopped."*
+
+**Evolution Chain:**
+```
+Sparrow  ──(Lv 20 + Evolution Shard)──►  Swift Wing  ──(Lv 100 + Evolution Crystal + Wind Pinion)──►  Storm Swallow
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Sparrow | Tiny brown-voxel bird, rounded body, short wings, fast idle flutter | — |
+| 2 | Swift Wing | Sleeker build, blue-grey gradient, elongated wing voxels, wind-streak particle on movement | Tailwind |
+| 3 | Storm Swallow | White and storm-blue, twin forked tail feathers, crackling wind aura, leaves a visible air trail | Storm Screech |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 65 | 45 | 12 | 6 | 17 |
+
+**Growth / Lv:** +4 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Wing Gust | Wind Elemental | 8 | ×1.2 | 30% Blind (accuracy −50%, 2T) |
+| ★ | Quick Wing | Self-Buff | 10 | — | Own SPD +35%, 2T; next Physical skill during this buff deals +10% bonus damage |
+| | Dive Peck | Physical | 14 | ×1.8 | Damage +20% if own SPD exceeds target SPD at cast time |
+| | Feather Veil | Self-Buff | 16 | — | 35% dodge chance for 2T; incoming Blind effects are reflected back to attacker at 50% duration |
+| | Tailwind | Self-Buff | 22 | — | Own SPD +50%, 3T; also applies SPD +10% to the next beast swapped in (party-support flavour); unlocks at Stage 2 |
+| | Storm Screech | Wind Elemental | 34 | ×3.5 | 45% Blind + target SPD −25%, 2T; Stage 3 only |
+
+**Lore Notes:**
+- Wind Pinion drops from Stone Titan (Mountain Peak boss), 14% drop rate
+- `Feather Veil` Blind reflection is a one-time proc per cast — if multiple Blind sources hit during the buff window, only the first triggers the reflect; store as a `reflect_blind_pending` flag that clears after one proc
+- `Tailwind` SPD aura for the next swapped beast is cosmetic flavour; only implement if a party/swap system exists — if not, the buff is Sparrow-only for the 3T window
+- Sparrow is the lowest-HP beast in the entire roster (HP 65 base) — intentional; compensated by highest Common SPD (17) and strong dodge tools; pair with a healer or tanky frontline in dungeon runs
+
+---
+
+## 037 · Hedgehog `Common`
+
+**Natural Affinity:** Earth-lean
+**Stat Build:** Defensive
+**Habitat:** Mossy forest undergrowth and stone-bordered paths — `zone_starter`, `zone_forest`
+**Behaviour:** Passive. Wanders slowly along the ground. When the player approaches within 3 studs, curls into a spike ball for 2 seconds (immune to world interaction), then uncurls and slowly waddles away. Does not flee far — easy to re-engage.
+
+> *"It asks nothing of the world. It simply ensures the world regrets asking anything of it."*
+
+**Evolution Chain:**
+```
+Hedgehog  ──(Lv 20 + Evolution Shard)──►  Spike Hog  ──(Lv 100 + Evolution Crystal + Iron Quill)──►  Iron Porcupine
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Hedgehog | Tiny round voxel body, stubby quills in rows, slow rolling idle | — |
+| 2 | Spike Hog | Larger, visible layered quill segments, brownish-iron gradient, stone-dust particle on curl | Quill Storm |
+| 3 | Iron Porcupine | Tall sleek body, metallic black quills, orange glow tips, crack-earth particle on stomp | Iron Quill Strike |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 80 | 50 | 10 | 14 | 7 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Poke | Physical | 8 | ×1.2 | 25% Poison (DOT: ×0.5 dmg/turn, 3T); quill-tip venom |
+| ★ | Spike Curl | Self-Buff | 10 | — | Own DEF +40%, 2T; reflects 15% incoming Physical damage back to attacker |
+| | Needle Barrage | Physical | 16 | ×1.8 | Hits 2× at ×0.8 each; each hit independently rolls 20% Poison |
+| | Spine Shield | Self-Buff | 18 | — | Own DEF +30% & immune to Physical damage entirely for 1T (full block); loses SPD −15% same turn |
+| | Quill Storm | Physical | 22 | ×2.5 | 35% Armor Break (DEF −30%, 2T); unlocks at Stage 2 |
+| | Iron Quill Strike | Physical | 34 | ×3.5 | Damage calculation uses own DEF as an ATK supplement: +10% of DEF value added as flat ATK bonus; Stage 3 only |
+
+**Lore Notes:**
+- Iron Quill drops from Elder Treant (Dark Forest boss), 13% drop rate
+- `Spike Curl` reflection is a flat 15% of incoming damage dealt — not elemental; implement as `attacker.HP -= math.floor(damage × 0.15)` applied after the hit resolves, before next turn starts
+- `Spine Shield` full block: store as a `block_physical_next = true` flag; Physical damage = 0 that turn; Elemental and DOT damage are unaffected by the block
+- `Iron Quill Strike` DEF-as-ATK mechanic: compute `bonus_atk = math.floor(self.DEF × 0.10)` at cast time, then add to ATK before damage formula runs; same pattern as Armadillo's Rolling Charge
+- Hedgehog and Slime (Common Defensive) share the same stat archetype; Hedgehog leans into spike-reflect and Poison, Slime into absorption and self-heal — differentiated in combat role
+
+---
+
+## 038 · Frog `Common`
+
+**Natural Affinity:** Water-lean
+**Stat Build:** Balanced
+**Habitat:** Damp forest floor, pond edges, and riverside stones — `zone_starter`, `zone_forest`
+**Behaviour:** Passive. Sits motionless near water. Leaps away in randomised directions when approached. Spawn rate doubles during active rain weather. Cannot be encountered away from water-adjacent tiles.
+
+> *"The Frog does not fear the swamp. It is the swamp."*
+
+**Evolution Chain:**
+```
+Frog  ──(Lv 20 + Evolution Shard)──►  Toad  ──(Lv 100 + Evolution Crystal + Toxic Dewdrop)──►  Poison King Frog
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Frog | Squat green voxel body, wide mouth, bulging idle eyes, gentle hop cycle | — |
+| 2 | Toad | Larger, wartier skin texture, grey-green, heavier idle posture, slime drip particle | Acid Skin |
+| 3 | Poison King Frog | Vivid purple-and-gold, glowing poison sacs on back, regal crown-shaped crest, toxic mist ambient | Toxin Nova |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 80 | 55 | 12 | 9 | 12 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +1 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Tongue Lash | Physical | 10 | ×1.2 | 30% Poison (DOT: ×0.5 dmg/turn, 3T) |
+| ★ | Rain Dance | Self-Buff | 12 | — | Own HP Regen +5% max HP/turn, 3T; own Water-type skill damage +15% same duration |
+| | Mud Splash | Water Elemental | 14 | ×1.2 | 35% Shock (SPD −25%, 2T) |
+| | Leap Strike | Physical | 18 | ×1.8 | 25% chance to enter a dodge-ready stance after landing (next single incoming hit misses, 1T) |
+| | Acid Skin | Self-Buff | 16 | — | For 3T, any Physical hit on Frog has a 20% chance to inflict Poison on the attacker (DOT: ×0.5/turn, 2T); unlocks at Stage 2 |
+| | Toxin Nova | Water Elemental | 32 | ×2.5 | Inflicts Poison (5T) + removes 1 active buff from target; Stage 3 only |
+
+**Lore Notes:**
+- Toxic Dewdrop drops from Elder Treant (Dark Forest boss), 12% drop rate
+- `Acid Skin` Poison proc on attacker: evaluate each time Frog takes a Physical hit during the buff window; roll 20% independently per hit; apply Poison to `attacker` not `self`; Elemental hits do not trigger this proc
+- `Rain Dance` Regen ticks at start of Frog's turn for 3 turns; the Water-damage buff is a `skill_type_modifier` for Water-tagged skills only, not all moves
+- Rain weather world condition affecting spawn rate is a spawn-table flag — dev sets `frog_spawn_multiplier = 2.0` when `weather == "rain"`; revert to 1.0 otherwise
+- Frog's Balanced archetype means no dominant stat — useful as a flexible early-game pet; primarily valued for Poison stacking combo with Toad evolution's Acid Skin
+
+---
+
+## 039 · Goat `Common`
+
+**Natural Affinity:** Earth-lean
+**Stat Build:** Tank
+**Habitat:** Rocky mountain trails and clifftop plateaus — `zone_forest`, `zone_mountain`
+**Behaviour:** Semi-passive. Grazes on ledges. Does not flee. If the player walks directly at it without slowing, it lowers its head and charges first — triggers an immediate battle. Approaching from the side or crouching (if mechanic exists) avoids the charge.
+
+> *"The mountain did not shape the Goat. The Goat simply refused to be shaped by anything else."*
+
+**Evolution Chain:**
+```
+Goat  ──(Lv 20 + Evolution Shard)──►  Mountain Ram  ──(Lv 100 + Evolution Crystal + Mountain Horn)──►  Titan Ram
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Goat | Compact tan voxel body, short curved horns, cloven-hoof idle, ear flick animation | — |
+| 2 | Mountain Ram | Bulkier build, fuller curled horns, stone-grey coat, hoof-crack on stomp | Horned Guard |
+| 3 | Titan Ram | Massive, dark stone-textured hide, enormous twin spiral horns, seismic-dust particle on charge | Titan Slam |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 90 | 55 | 13 | 12 | 8 |
+
+**Growth / Lv:** +5 HP · +3 Sta · +2 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Headbutt | Physical | 10 | ×1.2 | 30% Armor Break (DEF −30%, 2T) |
+| ★ | Stubborn Stance | Self-Buff | 10 | — | Own DEF +30%, 2T; immune to Taunt and Knockback effects during buff |
+| | Ram Charge | Physical | 18 | ×1.8 | Removes 1 active buff from target before damage resolves |
+| | Mountain Graze | Self-Buff | 14 | — | Own ATK +20% & DEF +15%, 2T; flavour: drawing power from high ground |
+| | Horned Guard | Self-Buff | 20 | — | Own DEF +35% & reflects 20% incoming Physical damage; 30% Armor Break on any attacker who hits during buff window; unlocks at Stage 2 |
+| | Titan Slam | Physical | 34 | ×3.5 | Ignores 25% of target DEF; Stage 3 only |
+
+**Lore Notes:**
+- Mountain Horn drops from Stone Titan (Mountain Peak boss), 13% drop rate
+- `Stubborn Stance` Taunt immunity means Cerberus `Chain Pull` and similar Taunt-forcing effects cannot redirect Goat's attacks while the buff is active — store as a `taunt_immune` flag during buff turns; same implementation note as King's Judgment (Lion) but defensive
+- `Horned Guard` Armor Break on attackers: roll 30% per Physical hit during buff window; apply `DEF_break` to `attacker.ActiveEffects` as normal Armor Break stack
+- `Ram Charge` buff removal: remove a random single active buff entry from `target.ActiveBuffs` at cast time, before damage is calculated; if no buffs present, still deals full damage (removal is a bonus, not a condition)
+
+---
+
+## 040 · Beaver `Common`
+
+**Natural Affinity:** Water/Earth-lean
+**Stat Build:** Defensive
+**Habitat:** Forest riverbeds and dam-blocked mountain streams — `zone_forest`, `zone_mountain`
+**Behaviour:** Passive. Found near water, visually interacting with a cosmetic dam structure. Tail-slaps the water surface (audio cue) when the player approaches — brief warning animation, then dives into water and surfaces at a nearby tile. Does not flee far. Slowest movement speed of any Common beast.
+
+> *"The Beaver does not ask whether the river wants to be dammed. It simply builds until the river agrees."*
+
+**Evolution Chain:**
+```
+Beaver  ──(Lv 20 + Evolution Shard)──►  Builder Beaver  ──(Lv 100 + Evolution Crystal + Builder's Timber)──►  Grand Architect
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Beaver | Squat brown voxel body, flat paddle tail, buckteeth, water-ripple idle | — |
+| 2 | Builder Beaver | Larger, darker pelt, tool-belt marking voxel, wood-chip particle on actions | Dam Shield |
+| 3 | Grand Architect | Broad and imposing, stone-reinforced hide, glowing amber eyes, blueprint-pattern aura, dam-structure voxel orbits | Grand Levee |
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 88 | 55 | 10 | 15 | 5 |
+
+**Growth / Lv:** +5 HP · +2 Sta · +2 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Tail Slap | Physical | 10 | ×1.2 | 30% Shock (SPD −25%, 2T); paddle-tail water smash |
+| ★ | Build Dam | Self-Buff | 12 | — | Own DEF +45%, 2T; incoming Water-type damage reduced by 30% during buff |
+| | Log Toss | Earth Elemental | 16 | ×1.8 | 25% Armor Break; logs hurled from dam stockpile |
+| | Flood Gate | Water Elemental | 20 | ×1.8 | 35% Shock + 20% additional SPD reduction (stacks with Shock's own SPD penalty for −45% total) |
+| | Dam Shield | Self-Buff | 20 | — | Own DEF +50%, immune to SPD debuffs for 3T; unlocks at Stage 2 |
+| | Grand Levee | Self-Buff | 38 | — | Own DEF +80% & all incoming damage reduced 20%, 3T; ATK −25% during buff (construction focus); Stage 3 only |
+
+**Lore Notes:**
+- Builder's Timber drops from Elder Treant (Dark Forest boss), 11% drop rate
+- `Flood Gate` SPD stacking: Shock applies −25% SPD as its base; Flood Gate's additional −20% stacks multiplicatively — compute as `SPD × 0.75 × 0.80` = effective −40% SPD; round down
+- `Grand Levee` ATK reduction is a self-imposed modifier (same implementation pattern as Armadillo `Fortress Mode`) — not a debuff, cannot be cleansed; store as `self_modifier_atk_penalty = 0.25`
+- Beaver and Hedgehog are both Common Defensive; Beaver has higher HP and SPD debuff tools (control), Hedgehog has higher DEF and spike-reflect (punishment); distinct roles in dungeon compositions
+- `Build Dam` Water damage reduction: applies only to Water-tagged incoming hits; compute as `incoming_damage × 0.70` when `skill.Type == "Water"` and buff is active
+
+---
+
+## 041 · Wolverine `Uncommon`
+
+**Natural Affinity:** Nature-lean
+**Stat Build:** Offensive
+**Habitat:** Dense old-growth forests and rocky ravines — `zone_forest`, `zone_mountain`
+**Behaviour:** Aggressive. Does not flee under any circumstance. Charges the player on sight with no warning animation. Encounter cannot be abandoned once triggered — the Wolverine pursues until either side wins.
+
+> *"It has been bitten by things ten times its size. It bit back harder. It always bites back harder."*
+
+**Evolution Chain:**
+```
+Wolverine  ──(Lv 30 + Evolution Shard)──►  Savage Wolverine  ──(Lv 150 + Evolution Crystal + Berserker Claw)──►  Apex Wolverine
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Wolverine | Stocky dark-brown voxel body, white face stripe, low-slung stance, snarling idle | — |
+| 2 | Savage Wolverine | Larger, battle-scarred fur voxels, visible claw extensions, blood-spatter particle on attacks | Blood Frenzy Claw |
+| 3 | Apex Wolverine | Deep black pelt, iron-claw gauntlets, glowing red claw tips, rage-aura particle, cracked-ground on each step | Apex Rage |
+
+**Passive — Undying Grit:** Once per battle, when this pet would be reduced to 0 HP, it survives with exactly 1 HP instead. Immediately upon triggering, own ATK +30% for the remainder of the battle. This bonus is permanent for that battle and cannot be removed.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 110 | 75 | 22 | 12 | 14 |
+
+**Growth / Lv:** +7 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Slash Frenzy | Physical | 14 | ×1.8 | Hits 2× at ×0.8 each; each hit ignores 10% of target DEF |
+| ★ | Feral Roar | Self-Buff | 12 | — | Own ATK +25%, 2T; immune to Freeze this turn |
+| | Reckless Strike | Physical | 18 | ×2.0 | Own DEF −20% for 1T after use; damage ignores 15% of target DEF regardless |
+| | Iron Claws | Self-Buff | 16 | — | Own ATK +15% & Physical skill critical hits deal +25% bonus damage, 3T |
+| | Blood Frenzy Claw | Physical | 28 | ×2.5 | Damage +20% if own HP < 50%; heals self for 10% own max HP on hit; unlocks at Stage 2 |
+| | Apex Rage | Physical | 42 | ×3.5 | Damage +40% if Undying Grit has triggered this battle; Stage 3 only |
+
+**Lore Notes:**
+- Berserker Claw drops from Elder Treant (Dark Forest boss), 10% drop rate
+- `Undying Grit` survive-at-1-HP: set a `undying_grit_used = false` flag per battle; when `incoming_damage >= self.HP`, if flag is false, set `self.HP = 1`, set flag to true, apply ATK +30% as a permanent `battle_passive_modifier`; if flag is already true, normal death occurs
+- `Undying Grit` ATK bonus is stored separately from `ActiveEffects` and cannot be removed by Purify or similar cleanse skills — same pattern as Fortress Mode and Grand Levee self-modifiers
+- `Apex Rage` checks `undying_grit_used == true` at cast time regardless of current HP; damage +40% stored as a `conditional_power_bonus` applied before elemental multiplier
+- Wolverine is the only beast with a guaranteed survive-at-1-HP passive — counterplay: multi-hit skills (Spine Volley, Bite Frenzy) do not chain-kill through the passive since the passive fires at the point HP would hit 0, not per-hit
+
+---
+
+## 042 · Koi `Uncommon`
+
+**Natural Affinity:** Water-lean
+**Stat Build:** Balanced
+**Habitat:** Ornamental ponds in forest clearings and mountain shrine pools — `zone_forest`, `zone_mountain`
+**Behaviour:** Passive. Swims only on water-tile surfaces. Cannot be encountered on land. Player must stand at the water's edge for the encounter to trigger. Koi circles lazily before surfacing — brief shimmer effect precedes the battle start.
+
+> *"Every legend says the Koi swam upstream until it became something greater. No legend says what happens to the river."*
+
+**Evolution Chain:**
+```
+Koi  ──(Lv 30 + Evolution Shard)──►  Dragon Koi  ──(Lv 150 + Evolution Crystal + Fortune Scale)──►  Imperial Koi
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Koi | Sleek orange-and-white voxel fish, long flowing fins, shimmering water-surface idle | — |
+| 2 | Dragon Koi | Larger, gold-scaled body, elongated serpentine tail fin, water-spiral particle on movement | Dragon Ascent |
+| 3 | Imperial Koi | Dragon-fish hybrid, full golden-jade scales, cloud-walk particle replaces water-surface restriction cosmetically, radiant fin-veil | Imperial Wave |
+
+**Passive — Fortune Scales:** At the start of each turn, roll once: 20% chance to trigger one of three effects at random — (a) Heal self 8% max HP, (b) Deal a bonus Water Elemental hit at ×0.5 to the target, or (c) Cleanse 1 debuff from self. Only one effect triggers per roll; if 20% does not hit, nothing happens.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 100 | 65 | 16 | 14 | 13 |
+
+**Growth / Lv:** +6 HP · +3 Sta · +3 ATK · +2 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Water Dance | Water Elemental | 14 | ×1.2 | 30% chance to trigger Regen (heal +4% max HP/turn, 2T) on self |
+| ★ | Scale Flash | Self-Buff | 12 | — | Own SPD +25% & ATK +15%, 2T; iridescent-scale cosmetic flash |
+| | Fortune Strike | Physical | 18 | ×1.8 | Always hits twice; second hit is ×0.5 power but triggers an additional Fortune Scales roll immediately |
+| | Mystic Current | Water Elemental | 16 | ×1.8 | 35% Shock (SPD −25%, 2T); 25% chance to double the Fortune Scales roll at turn start (triggers two rolls that turn) |
+| | Dragon Ascent | Water Elemental | 28 | ×2.5 | Damage +25% bonus if Fortune Scales triggered a Heal effect this turn; unlocks at Stage 2 |
+| | Imperial Wave | Water Elemental | 40 | ×3.5 | Forces Fortune Scales to fire all three effects simultaneously this turn before damage resolves; Stage 3 only |
+
+**Lore Notes:**
+- Fortune Scale drops from Stone Titan (Mountain Peak boss), 11% drop rate
+- Fortune Scales roll sequence: evaluate at turn start before any action — `roll = math.random(1, 100); if roll <= 20 then trigger_random_effect() end`; `trigger_random_effect` picks uniformly from {heal, bonus_hit, cleanse}
+- `Fortune Strike` second-hit Fortune roll fires inline, not at next turn start — call `trigger_fortune_scales_roll()` immediately after the second hit resolves; this is the only way to get two Fortune procs in one turn without `Imperial Wave` or `Mystic Current`
+- `Imperial Wave` forced triple-effect: apply heal → bonus_hit → cleanse in order before damage calc; the bonus_hit from Fortune counts as a separate Water hit and can itself trigger `Dragon Ascent`'s condition if the heal also fired — dev must order operations carefully
+- Koi is designed as the "luck" beast; variance is intentional; avoid buffing or nerfing Fortune Scales roll % without full combat simulation pass
+
+---
+
+## 043 · Hawk `Uncommon`
+
+**Natural Affinity:** Wind-lean
+**Stat Build:** Speed / Offensive
+**Habitat:** High cliff faces and open mountain thermals — `zone_mountain`, `zone_volcano`
+**Behaviour:** Aggressive. Spotted first as a fast-moving shadow on the ground below. Circles overhead for 2 seconds, then dives — encounter triggers at dive impact. Cannot be fled from on the first turn (dive locks the player in for at least 1 full round).
+
+> *"It does not search for prey. It simply picks the moment when prey forgets to look up."*
+
+**Evolution Chain:**
+```
+Hawk  ──(Lv 30 + Evolution Shard)──►  War Hawk  ──(Lv 150 + Evolution Crystal + Storm Talon)──►  Storm Raptor
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Hawk | Lean brown-voxel bird, sharp beak, folded wings at rest, head-pivot idle | — |
+| 2 | War Hawk | Larger, slate-grey armoured feathers, talons visibly sharpened, wind-blade particle on dive | Feather Blade |
+| 3 | Storm Raptor | Massive wingspan, storm-cloud grey with lightning-edge feathers, crackling air aura, thunder-clap on landing | Storm Raptor Strike |
+
+**Passive — Aerial Predator:** On turn 1 of battle only, Hawk always acts first regardless of SPD comparison. This is a priority override, not a SPD buff — it fires before all other actions including other always-first mechanics; if two Aerial Predator passives clash (mirror match), resolve by raw SPD as tiebreaker.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 95 | 70 | 20 | 9 | 18 |
+
+**Growth / Lv:** +6 HP · +3 Sta · +3 ATK · +2 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Talon Strike | Physical | 12 | ×1.2 | 35% Blind (accuracy −50%, 2T); precise aerial rake |
+| ★ | Wind Dive | Physical | 14 | ×1.8 | Damage +25% if own SPD exceeds target SPD at cast time |
+| | Piercing Screech | Debuff | 14 | — | 50% Blind, 2T; target ATK −15%, 2T |
+| | Aerial Slam | Physical | 20 | ×1.8 | On turn 1 only, deals ×2.5 instead of ×1.8 (Aerial Predator synergy); normal power on all subsequent turns |
+| | Feather Blade | Physical | 24 | ×1.2 | Hits 3× at ×0.6; each hit independently rolls 25% Blind; unlocks at Stage 2 |
+| | Storm Raptor Strike | Wind Elemental | 38 | ×3.5 | 40% Blind; if target is already Blind, also removes all active ATK buffs from target; Stage 3 only |
+
+**Lore Notes:**
+- Storm Talon drops from Stone Titan (Mountain Peak boss), 10% drop rate
+- `Aerial Predator` priority implementation: at turn resolution start, check `beast.passive == "aerial_predator"` and `battle_turn == 1`; if true, insert Hawk's action at position 0 in the action queue before SPD ordering; only applies on turn 1
+- `Aerial Predator` mirror match (two Hawks): standard raw-SPD tiebreaker applies — same rule as always-first skill clashes (Tiger Pounce family); dev must document this edge case in balance notes
+- `Aerial Slam` turn-1 power boost is separate from `Aerial Predator` — Aerial Predator guarantees going first; Aerial Slam rewards using Aerial Slam on that same turn 1 (combo design); check `battle_turn_counter == 1` at cast time for the power switch
+- Hawk (Uncommon Speed/Offensive) and Eagle (Rare Offensive) share aerial aesthetic — differentiate in model size, SPD vs power archetype, and passive type (Aerial Predator vs Eagle's established passive); confirm in UI pet info
+
+---
+
+## 044 · Wolf `Uncommon`
+
+**Natural Affinity:** Dark/Nature-lean
+**Stat Build:** Offensive
+**Habitat:** Old-growth forest interiors and moonlit highland meadows — `zone_forest`, `zone_mountain`
+**Behaviour:** Aggressive. Howls once before charging — the howl is audible from 10 studs out, giving the player a brief warning. A cosmetic second wolf appears at the forest edge during the howl but does not join the battle. Cannot be fled from once the howl animation completes.
+
+> *"The howl is not a warning. It is a declaration that the hunt has already ended — you simply do not know it yet."*
+
+**Evolution Chain:**
+```
+Wolf  ──(Lv 30 + Evolution Shard)──►  Alpha Wolf  ──(Lv 150 + Evolution Crystal + Lunar Fang)──►  Dire Wolf
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Wolf | Lean grey-voxel canine, pointed ears, slitted amber eyes, crouched-prowl idle | — |
+| 2 | Alpha Wolf | Larger, darker grey with white underbelly, battle-scar markings, moonlight sheen at night | Moon Fang |
+| 3 | Dire Wolf | Massive, obsidian-black pelt, glowing silver eye-slit, dark-mist aura, cracked-shadow on each stride | Dire Howl |
+
+**Passive — Pack Leader:** When this pet's attack deals the killing blow that reduces the target to 0 HP, own ATK +15% for the rest of the battle. This bonus stacks up to 3 times (+45% total). Most relevant in Dungeon multi-wave scenarios where multiple enemies are defeated sequentially.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 105 | 70 | 21 | 11 | 15 |
+
+**Growth / Lv:** +6 HP · +3 Sta · +3 ATK · +2 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Fang Strike | Physical | 12 | ×1.2 | 30% Poison (DOT: ×0.8 dmg/turn, 3T); infected bite |
+| ★ | Howl | Self-Buff | 14 | — | Own ATK +30%, 2T; if Pack Leader stacks ≥ 2, bonus becomes +40% instead |
+| | Shadow Pounce | Physical | 18 | ×1.8 | 30% Blind (2T); strikes from shadow flank |
+| | Alpha Mark | Debuff | 16 | — | Target DEF −25% & marked as prey: Wolf deals +10% bonus damage to marked target, 3T |
+| | Moon Fang | Dark Elemental | 26 | ×2.5 | 35% Poison + removes 1 active buff from target; unlocks at Stage 2 |
+| | Dire Howl | Dark Elemental | 38 | ×3.5 | Triggers Pack Leader as if a kill occurred (grants +15% ATK stack, up to cap), then deals damage; Stage 3 only |
+
+**Lore Notes:**
+- Lunar Fang drops from Elder Treant (Dark Forest boss), 9% drop rate
+- `Pack Leader` kill-check: evaluate at the moment target HP would reach 0 from Wolf's attack; increment `pack_leader_stacks` (max 3); apply cumulative +15% per stack to `battle_passive_modifier_atk`; this modifier persists across dungeon waves (does not reset between waves)
+- `Dire Howl` forced Pack Leader stack: call `apply_pack_leader_stack()` before damage calculation regardless of whether the target is killed; this can push stacks past 3 if already at 3 — dev must clamp at max 3 stacks even with Dire Howl
+- `Alpha Mark` prey bonus and `Alpha Mark` DEF reduction are two separate modifiers stored in `target.ActiveDebuffs`; the +10% Wolf damage bonus reads from `target.HasAlphaMark` flag — apply it as a `source_bonus` in the damage formula when `attacker.SpeciesId == "wolf"`
+- Wolf and Fox (002, Uncommon Speed) share similar combat archetype; Wolf is Offensive with execute bonus and Poison, Fox is Speed with evasion and counter — distinct niches; confirm differentiation is visible in auto-battle AI
+
+---
+
+## 045 · Gorilla `Rare`
+
+**Natural Affinity:** Earth-lean
+**Stat Build:** Tank / Offensive
+**Habitat:** Thick jungle canopy in old-growth forest depths — `zone_forest`
+**Behaviour:** Territorial. Stands upright and beats its chest as a warning when the player enters its territory radius (8 studs). If the player does not retreat within 3 seconds, it charges. If the player walks backward slowly, it returns to idle. Most patient aggro reset of any Rare beast.
+
+> *"It does not hate you. It simply has a very precise definition of what belongs in its forest."*
+
+**Evolution Chain:**
+```
+Gorilla  ──(Lv 50 + Evolution Shard)──►  Silverback  ──(Lv 200 + Evolution Crystal + Primal Knuckle)──►  Primal King
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Gorilla | Large dark-grey voxel primate, knuckle-walk idle, visible brow ridge, chest-thud idle animation | — |
+| 2 | Silverback | Larger, silver-back marking, heavier jaw, earth-crack on each knuckle-step | Silverback Charge |
+| 3 | Primal King | Enormous, obsidian-and-copper colour, crown of stone-shard voxels, primal-energy aura, ground-shatter on stomp | Primal King Strike |
+
+**Passive — Knuckle Guard:** When Gorilla takes a Physical hit, 25% chance to automatically counter with a basic Physical strike at ×0.8 power (non-elemental, no skill effects or passives apply to the counter). Counter does not consume Stamina or skip Gorilla's next turn.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 210 | 90 | 32 | 24 | 12 |
+
+**Growth / Lv:** +10 HP · +4 Sta · +4 ATK · +3 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Ground Pound | Physical | 14 | ×1.8 | 40% Armor Break (DEF −30%, 2T); seismic-shockwave |
+| ★ | Primal Roar | Self-Buff | 12 | — | Own ATK +35%, 2T; target ATK −15%, 2T (dual effect — intimidation) |
+| | Knuckle Slam | Physical | 20 | ×2.0 | Damage +15% per active Armor Break stack on target (max 3 stacks = +45%) |
+| | Chest Pound | Self-Buff | 18 | — | Own ATK +20% & DEF +20%, 3T; 50% chance to inflict Taunt on target (forces target to attack Gorilla) |
+| | Silverback Charge | Physical | 28 | ×2.5 | Always-first this turn; removes all active SPD buffs from target before damage; unlocks at Stage 2 |
+| | Primal King Strike | Earth Elemental | 44 | ×3.5 | Ignores 30% of target DEF; if Armor Break is active on target, ignores 50% DEF instead; Stage 3 only |
+
+**Lore Notes:**
+- Primal Knuckle drops from Elder Treant (Dark Forest boss), 8% drop rate
+- `Knuckle Guard` counter proc: roll 25% each time Gorilla takes a Physical hit; counter is resolved as a standalone Physical action at ×0.8 power using Gorilla's current ATK stat (including active buffs); does not trigger Knuckle Guard recursively
+- `Silverback Charge` always-first joins the established family: Tiger Pounce / Eagle Talon Dive / Horse Cavalry Charge / Armadillo Rolling Charge / Gorilla Silverback Charge — same raw-SPD tiebreaker rule applies when multiple always-first skills clash in PvP
+- `Primal King Strike` DEF-ignore switch: at cast time, check `target.ActiveEffects` for any Armor Break entry; if present, use 50% ignore; if absent, use 30%; the check is binary — partial stacks still trigger the 50% tier
+- Gorilla, Bear (012 Rare Tank), and Crocodile (034 Rare Tank) all occupy the Rare Tank slot; Gorilla is the only one with a counter passive and Armor Break synergy — design intent is Gorilla as the "punisher" tank, Bear as the "scaling" tank, Crocodile as the "lockdown" tank
+
+---
+
+## 046 · Anaconda `Rare`
+
+**Natural Affinity:** Water/Dark-lean
+**Stat Build:** Defensive
+**Habitat:** Murky jungle wetlands and volcanic swamp channels — `zone_forest`, `zone_volcano`
+**Behaviour:** Ambush. Lies motionless coiled in undergrowth or shallow water — visually blends with surrounding terrain. Encounter triggers when the player steps within 3 studs. No warning animation. Cannot be fled from once triggered. Slowest-moving Rare beast but highest DEF at base level.
+
+> *"It does not chase. It has never needed to. Everything comes to the swamp eventually."*
+
+**Evolution Chain:**
+```
+Anaconda  ──(Lv 50 + Evolution Shard)──►  Jungle Python  ──(Lv 200 + Evolution Crystal + Serpent Heart)──►  World Serpent
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Anaconda | Long segmented dark-green voxel serpent, blunt head, coil-idle animation | — |
+| 2 | Jungle Python | Thicker segments, patterned scales, golden eye slit, swamp-mist particle | Swallow Whole |
+| 3 | World Serpent | Massive, deep oceanic grey-black with bioluminescent scale pattern, ancient rune voxels on body, world-tremor on movement | World Serpent Coil |
+
+**Passive — Constrictor:** At the start of each turn after turn 1, the target's SPD is reduced by a cumulative 5% per elapsed turn (turn 2: −5%, turn 3: −10%, turn 4: −15%, up to a maximum of −30% at turn 6+). This is a passive aura, not a status effect — it cannot be cleansed, reflected, or removed by Purify or any buff-clear skill.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 190 | 85 | 25 | 28 | 13 |
+
+**Growth / Lv:** +10 HP · +4 Sta · +3 ATK · +4 DEF · +1 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Squeeze | Physical | 14 | ×1.2 | 40% Bind (target skips next turn) |
+| ★ | Venom Spit | Dark Elemental | 12 | ×1.0 | Inflicts Poison (DOT: ×1.0 dmg/turn, 4T) |
+| | Crushing Coil | Physical | 20 | ×1.8 | 50% Bind; damage ignores 15% of target DEF |
+| | Shed Skin | Self-Buff | 18 | — | Cleanses all active debuffs from self; own Regen +5% max HP/turn, 3T |
+| | Swallow Whole | Physical | 28 | ×2.5 | If target is currently Bound, power becomes ×3.5 instead; unlocks at Stage 2 |
+| | World Serpent Coil | Dark Elemental | 42 | ×3.5 | Inflicts Poison (5T) + Bind (1T) + Armor Break (2T) simultaneously; Stage 3 only |
+
+**Lore Notes:**
+- Serpent Heart drops from Orc Overlord (Volcano Pit boss), 9% drop rate
+- `Constrictor` aura implementation: store as `anaconda_constrictor_stacks` on the target; increment by 1 at the start of each of Anaconda's turns (starting turn 2); cap at 6; apply as `target.SPD_modifier -= 0.05 × stacks`; this modifier is NOT added to `target.ActiveEffects` — store separately as `target.aura_spd_penalty` to prevent cleanse interactions
+- `Swallow Whole` Bind condition: check `target.ActiveEffects` for Bind at cast time; if present, use ×3.5; if not, use ×2.5; the Bind is consumed normally (it still ends on schedule) — Swallow Whole is capitalising on an existing Bind, not extending it
+- `World Serpent Coil` sequential application: apply Poison → Bind → Armor Break in order before damage; Armor Break's DEF reduction factors into the damage calculation (same as Chaos Manifestation pattern)
+- Anaconda has the highest base DEF of any Rare (28 vs Bear's 26 and Croc's 30 — note Croc edges it); the Constrictor aura makes prolonged fights heavily favour Anaconda; counterplay is burst damage or Bind immunity items
+
+---
+
+## 047 · Basilisk `Rare`
+
+**Natural Affinity:** Dark/Earth-lean
+**Stat Build:** Offensive
+**Habitat:** Subterranean cavern ruins and volcanic stone labyrinths — `zone_volcano`, `zone_abyss`
+**Behaviour:** Aggressive. Has a unique encounter trigger: the player's screen briefly dims and a gaze-shimmer effect plays before the battle starts — a one-second warning the Basilisk is nearby. Cannot be fled from. Low encounter rate — one of the rarer Rare-tier field spawns.
+
+> *"Legends say its gaze turns flesh to stone. The legends are only slightly exaggerating."*
+
+**Evolution Chain:**
+```
+Basilisk  ──(Lv 50 + Evolution Shard)──►  Stone Basilisk  ──(Lv 200 + Evolution Crystal + Petrified Eye)──►  Petrifier King
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Basilisk | Mid-sized lizard-voxel, elongated neck, slit-eye crown crest, stone-dust idle | — |
+| 2 | Stone Basilisk | Larger, partially stone-encrusted limbs, glowing amber eye, slow stone-crack particle on each step | Gorgon Gaze |
+| 3 | Petrifier King | Massive, full obsidian-and-amber stone plating, crown of four eye-gems, petrification-dust ambient aura | Petrifier Breath |
+
+**Passive — Petrifying Gaze:** At the start of the first turn of battle, there is a 20% chance the opponent's pet skips its very first action (Petrified, 1T). This effect triggers only once per battle and cannot stack.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 160 | 90 | 35 | 15 | 18 |
+
+**Growth / Lv:** +9 HP · +4 Sta · +4 ATK · +3 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Stone Stare | Debuff | 14 | — | Target DEF −30% & SPD −20%, 2T; partial petrification effect |
+| ★ | Venom Fang | Physical | 12 | ×1.2 | 40% Poison (DOT: ×1.0 dmg/turn, 4T) |
+| | Tail Crush | Physical | 18 | ×1.8 | 35% Armor Break + 20% Shock (SPD −25%, 2T) |
+| | Basilisk Scale | Self-Buff | 16 | — | Own DEF +40% & immune to Poison and Shock, 3T |
+| | Gorgon Gaze | Debuff | 26 | — | 35% chance to fully Petrify target (Bind 2T) + target DEF −40%, 2T; unlocks at Stage 2 |
+| | Petrifier Breath | Dark Elemental | 40 | ×3.5 | 50% chance full Petrify (Bind 2T); if Petrify triggers, also inflicts Armor Break (2T) + Poison (4T) simultaneously; Stage 3 only |
+
+**Lore Notes:**
+- Petrified Eye drops from Abyssal Demon Lord (Abyss Rift boss), 8% drop rate
+- `Petrifying Gaze` passive: resolve at `battle_turn_counter == 1`, before either side acts; roll 20%; if hit, set `opponent_pet.skip_first_action = true` for turn 1; this flag is not stored in `ActiveEffects` (it is a pre-battle passive resolution, not a status effect)
+- `Gorgon Gaze` Bind is a full Bind (same as Anaconda Squeeze) — stores in `ActiveEffects` as "Bind 2T"; the DEF debuff is a separate `ActiveDebuffs` entry; both apply simultaneously at cast resolution
+- `Petrifier Breath` conditional chain: roll 50% for Petrify first; if Petrify triggers, then apply Armor Break and Poison (no additional rolls needed — they are guaranteed if Petrify lands); if Petrify does not trigger, Armor Break and Poison are NOT applied — the skill deals damage only
+- Basilisk (Rare Offensive) and Shark (Rare Offensive) share similar stat archetype; Basilisk leans into petrification control and DEF-shred, Shark into DOT exploitation and raw burst — distinct archetypes confirmed
+
+---
+
+## 048 · Kitsune `Epic`
+
+**Natural Affinity:** Fire/Dark-lean
+**Stat Build:** Speed
+**Habitat:** Mystic forest groves with fox-fire wisp phenomena — `zone_forest`, `zone_abyss`
+**Behaviour:** Elusive. Appears as a cluster of floating fox-fire wisps. Vanishes and reappears up to three times before a stable encounter can be triggered. Each vanish adds 2 seconds to the encounter timer. Fastest flee speed of any Epic beast. Can only be captured with a capture rate penalty (−15% base capture chance) due to illusion resistance.
+
+> *"Nine tails. Nine lives. Nine ways to disappear before you realise you never really saw it."*
+
+**Evolution Chain:**
+```
+Kitsune  ──(Lv 75 + Evolution Shard)──►  Nine-Tail Fox  ──(Lv 300 + Evolution Crystal + Spirit Orb)──►  Celestial Kitsune
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Kitsune | Sleek orange-voxel fox, two visible tails with flame tips, wisp-orbit idle | — |
+| 2 | Nine-Tail Fox | Larger, silver-white coat, nine tails fanned and burning, fox-fire particle trail on movement | Phantom Step |
+| 3 | Celestial Kitsune | Ethereal white-gold form, all nine tails emit aurora-flame, divine-seal voxel on forehead, reality-distortion ambient | Celestial Fox Flame |
+
+**Passive — Fox Fire:** Each offensive skill used by this pet has a 20% chance to place a Fox Fire mark on the target. When 3 marks have accumulated on the target, they explode automatically for Fire Elemental damage equal to ×1.5 total power (no SP cost, not a skill action). Marks are cleared after explosion. Unexploded marks persist until the end of battle.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 185 | 105 | 40 | 18 | 32 |
+
+**Growth / Lv:** +13 HP · +6 Sta · +5 ATK · +3 DEF · +3 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Spirit Flame | Fire Elemental | 16 | ×1.2 | 30% Burn (DOT: ×0.8 dmg/turn, 3T); places Fox Fire mark (20% chance) |
+| ★ | Illusion Strike | Physical | 14 | ×1.8 | 35% Blind (2T); opponent cannot determine which tail struck |
+| | Foxfire Burst | Fire Elemental | 20 | ×1.8 | Guaranteed Fox Fire mark placement + 30% Burn; no chance roll for the mark |
+| | Nine-Tail Whip | Physical | 24 | ×1.2 | Hits 4× at ×0.5 each; each hit independently rolls 20% Fox Fire mark |
+| | Phantom Step | Self-Buff | 18 | — | Own SPD +40% & 30% dodge chance for 2T; unlocks at Stage 2 |
+| | Celestial Fox Flame | Fire Elemental | 44 | ×3.5 | Instantly detonates all Fox Fire marks currently on the target (regardless of count) before damage resolves, then deals main damage; Stage 3 only |
+
+**Lore Notes:**
+- Spirit Orb drops from Abyssal Demon Lord (Abyss Rift boss), 7% drop rate
+- `Fox Fire` mark tracking: store `target.fox_fire_marks` as an integer counter (0–3); increment on 20% roll per offensive skill; when counter reaches 3, immediately trigger `fox_fire_explosion(target, power=1.5, type="Fire")` and reset counter to 0; explosion fires as an interrupt between the current skill resolution and the next turn
+- `Foxfire Burst` guaranteed mark: skip the 20% roll; call `target.fox_fire_marks += 1` unconditionally after skill resolves
+- `Nine-Tail Whip` mark rolls: four independent 20% rolls; each increments `target.fox_fire_marks` and checks for explosion after each increment — it is possible for a single Nine-Tail Whip to trigger the explosion mid-sequence (e.g., 3rd hit pushes marks to 3); resolve explosion immediately when threshold is hit, then continue remaining hits with counter reset to 0
+- `Celestial Fox Flame` forces explosion: call `fox_fire_explosion(power = marks × 0.5)` (scales with current marks, max ×1.5 for 3 marks) before damage; if marks = 0, no explosion (skill still deals main damage); do not force explosion if no marks are present
+
+---
+
+## 049 · Werewolf `Epic`
+
+**Natural Affinity:** Dark/Nature-lean
+**Stat Build:** Offensive
+**Habitat:** Moonlit highland ruins and abyss-border dark forests — `zone_abyss`, `zone_forest`
+**Behaviour:** Aggressive. Only spawns at night (if a day/night system exists) or in permanently dark zones. Spotted by glowing yellow eyes before the model renders. Lunges on sight with a distinctive howl. Cannot be fled from. One of the most dangerous non-Legendary field encounters.
+
+> *"It remembers what it was before the moon. It simply chooses not to go back."*
+
+**Evolution Chain:**
+```
+Werewolf  ──(Lv 75 + Evolution Shard)──►  Blood Wolf  ──(Lv 300 + Evolution Crystal + Blood Moon Stone)──►  Lunar Werewolf
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Werewolf | Towering dark-grey voxel werewolf, clawed hands, hunched stance, glowing amber eyes, ragged fur | — |
+| 2 | Blood Wolf | Darker pelt, red-stained claws, crescent-moon scar on chest, blood-mist particle on attacks | Full Moon Rampage |
+| 3 | Lunar Werewolf | Black and silver-white split pelt, one eye silver/one eye gold, moon-disc voxel orbits, reality-bend aura at night | Lycan Transformation |
+
+**Passive — Lunar Rage:** On odd-numbered turns (1, 3, 5, 7...) own ATK +25%. On even-numbered turns (2, 4, 6, 8...) own SPD +25%. These bonuses alternate — they do not stack across turns; only the current turn's applicable bonus is active.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 200 | 115 | 48 | 18 | 25 |
+
+**Growth / Lv:** +14 HP · +6 Sta · +6 ATK · +3 DEF · +2 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Claw Rend | Physical | 16 | ×1.8 | 35% Armor Break (DEF −30%, 2T) + 25% Bleed (DOT: ×0.8 dmg/turn, 3T) |
+| ★ | Moon Howl | Self-Buff | 14 | — | Own ATK +30%, 2T; if currently on an odd turn, buff extends 1 additional turn (total 3T) |
+| | Shadow Maul | Dark Elemental | 20 | ×1.8 | 30% Blind (2T) + 30% Armor Break (2T) |
+| | Lunar Frenzy | Self-Buff | 18 | — | Own ATK +20% per active DOT on target (max +60% for 3 DOTs), 2T |
+| | Full Moon Rampage | Physical | 32 | ×2.5 | If currently on an odd turn (Lunar Rage ATK phase), power becomes ×3.5 instead; unlocks at Stage 2 |
+| | Lycan Transformation | Dark Elemental | 44 | ×3.5 | For the next 3T after use, Lunar Rage bonuses double (+50% ATK on odd / +50% SPD on even); Stage 3 only |
+
+**Lore Notes:**
+- Blood Moon Stone drops from Abyssal Demon Lord (Abyss Rift boss), 6% drop rate
+- `Lunar Rage` implementation: at turn start, check `battle_turn_counter % 2 == 1` (odd) → apply `atk_modifier = 1.25`; else → apply `spd_modifier = 1.25`; clear the previous turn's modifier before applying the new one — they never coexist
+- `Lycan Transformation` doubling: set `lunar_rage_multiplier = 2.0` for 3T; the base +25% becomes +50% per phase while this flag is active; reset to 1.0 after 3T
+- `Full Moon Rampage` odd-turn check: evaluate `battle_turn_counter % 2 == 1` at cast time; if true use ×3.5; if false use ×2.5; this is independent of `Lycan Transformation` — if Lycan is active, Lunar Rage is still read from `battle_turn_counter`, not from a modified source
+- Night-only spawn: if day/night system is not yet implemented, Werewolf spawns in `zone_abyss` unconditionally; flag for update when time system ships
+- Werewolf has the highest base ATK of any non-Legendary beast (48) — balanced by lowest base DEF at Epic tier (18); glass-cannon archetype; confirm with balance team before shipping
+
+---
+
+## 050 · Thunderbird `Legendary`
+
+**Natural Affinity:** Wind/Electric-lean
+**Stat Build:** Offensive / Speed
+**Habitat:** Stormcloud-wreathed mountain summits during active storm weather events — `zone_mountain`, `zone_abyss`
+**Behaviour:** World-event beast. Only spawns when the server-wide Storm Weather event is active. Circles the highest mountain peak in enormous slow arcs, visible from across the map. Approaching requires climbing to the summit while the storm is active. Disappears if the weather event ends before encounter is triggered. Cannot be fled from.
+
+> *"The storm does not follow the Thunderbird. The Thunderbird is the reason the storm knows where to go."*
+
+**Evolution Chain:**
+```
+Thunderbird  ──(Lv 100 + Evolution Shard)──►  Storm Lord  ──(Lv 500 + Evolution Crystal + Storm Feather)──►  Sky Sovereign
+```
+
+| Stage | Name | Model Change | New Skill Unlocked |
+|---|---|---|---|
+| 1 | Thunderbird | Enormous voxel raptor, storm-grey feathers, crackling electric edges on wing tips, lightning-flash idle | — |
+| 2 | Storm Lord | Larger, deep violet-black plumage, continuous lightning arc on each wing, thunder-crack on each wingbeat | Storm Surge |
+| 3 | Sky Sovereign | Godlike wingspan, white-gold body, prismatic lightning crown, storm-vortex ambient, shockwave on landing | Divine Thunder |
+
+**Passive — Storm Conductor:** Each time this pet uses an Electric-typed skill, gain 1 Storm Stack (+10% ATK per stack, max 6 stacks = +60% ATK total). Storm Stacks reset to 0 if a non-Electric, non-Wind skill is used. Wind-typed skills do not grant stacks but also do not reset them.
+
+**Base Stats (Lv 1):**
+| HP | Stamina | ATK | DEF | SPD |
+|---|---|---|---|---|
+| 290 | 140 | 58 | 28 | 35 |
+
+**Growth / Lv:** +18 HP · +8 Sta · +8 ATK · +5 DEF · +4 SPD
+
+**Skill Pool:**
+| | Skill | Type | SP | Power | Effect |
+|---|---|---|---|---|---|
+| ★ | Thunder Talons | Electric Elemental | 18 | ×1.8 | 40% Shock (SPD −25%, 2T); grants 1 Storm Stack |
+| ★ | Gale Wing | Wind Elemental | 16 | ×1.2 | Always-first this turn; does not grant a Storm Stack but does not reset existing stacks |
+| | Chain Lightning | Electric Elemental | 22 | ×1.8 | Grants 1 Storm Stack; 30% Shock; if target is already Shocked, deal ×0.6 bonus Electric hit |
+| | Tempest Cry | Debuff | 20 | — | 50% Blind (2T) + target SPD −30%, 3T; does not interact with Storm Stacks |
+| | Storm Surge | Electric Elemental | 32 | ×2.5 | Grants 2 Storm Stacks; damage +5% per active Storm Stack at cast time (evaluated before the 2 new stacks are added); unlocks at Stage 2 |
+| | Divine Thunder | Electric Elemental | 50 | ×3.5 | Grants 3 Storm Stacks; ignores 30% of target DEF; if at max stacks (6) when cast, ignores 60% DEF instead; Stage 3 only |
+
+**Lore Notes:**
+- Storm Feather drops from Sky Sovereign herself at a 5% drop rate on re-encounter post-Stage-3 (mirror-match challenge encounter); alternatively available from Storm Weather event chest at 3% rate
+- `Storm Conductor` stack management: maintain `storm_stacks` (0–6) per battle; on Electric skill use, `storm_stacks = math.min(6, storm_stacks + 1)`; on Wind skill use, no change; on any other skill or action type, `storm_stacks = 0`; apply `atk_modifier = 1.0 + storm_stacks × 0.10` to ATK before damage calculation each turn
+- `Storm Surge` damage bonus: evaluate `current_stacks` before incrementing by 2; bonus is `1.0 + current_stacks × 0.05`; then add 2 stacks after; avoids self-referential stack inflation
+- `Divine Thunder` DEF-ignore check: at cast time, if `storm_stacks >= 6`, set `def_ignore = 0.60`; else `def_ignore = 0.30`; the 3 new stacks from Divine Thunder itself are added after the check (so a player with 5 stacks uses Divine Thunder at 30% ignore and reaches 6 stacks — requires pre-positioning to reach 6 before casting for the 60% tier)
+- `Gale Wing` always-first joins the established family: Tiger Pounce / Eagle Talon Dive / Horse Cavalry Charge / Armadillo Rolling Charge / Gorilla Silverback Charge / Thunderbird Gale Wing — same raw-SPD tiebreaker rule
+- Storm Weather world event: dev should implement as a timed server event (e.g., 30-minute cycle, 10-minute storm window); set `weather_event = "storm"` server-wide; Thunderbird spawn table is gated behind this flag; if no event system exists at ship, Thunderbird spawns in `zone_abyss` at a very low static rate (0.1%) as fallback
+- Thunderbird has the highest base SPD of any beast in the entire roster (35) — confirm no other Legendary surpasses this without deliberate design intent; also confirm Storm Stacks at max cap (+60% ATK) do not push Thunderbird into one-shot territory against tankiest beasts at equivalent level via playtesting
