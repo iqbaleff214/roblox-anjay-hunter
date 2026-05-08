@@ -8,6 +8,7 @@ build/
 # Wally dependencies
 Packages/
 ServerPackages/
+wally.lock
 
 # macOS
 .DS_Store
