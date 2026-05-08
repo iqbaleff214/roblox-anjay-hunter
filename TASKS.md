@@ -26,7 +26,7 @@ All config files live in `src/shared/Config/`. They are pure data modules — no
 ---
 
 ### F02 — GameConfig.lua
-- [ ] **File:** `src/shared/Config/GameConfig.lua`
+- [x] **File:** `src/shared/Config/GameConfig.lua`
 - **Instruction:** Define all global gameplay tuning constants: `MAX_PARTY_SIZE`, `MAX_ACTIVE_PETS`, `PET_ROSTER_LIMIT`, `MAX_SKILL_SLOTS`, `ENERGY_MAX`, `ENERGY_REGEN_RATE_MINUTES`, `ENERGY_REGEN_AMOUNT`, `SILVER_PER_GOLD`, `EXPEDITION_SLOT_BASE`, `EXPEDITION_SLOT_VIP`, `DAILY_DUNGEON_LIMIT`, `DAILY_DUNGEON_LIMIT_VIP`, `CODEX_REWARD_SILVER`, `REPUTATION_PER_NPC_WIN`, `TITLE_UNLOCK_REPUTATION`. Values must match GDD §5–§8 and §14.
 - **Output:** One flat return table; no nested tables (those belong in domain configs).
 - **Integration:** Required by `PlayerService` for schema defaults, `EnergyService` for regen math, `BattleService` for party validation, `MarketplaceService` for pass-gated limits.
