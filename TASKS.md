@@ -14,7 +14,7 @@ All config files live in `src/shared/Config/`. They are pure data modules — no
 ---
 
 ### F01 — Assets.lua
-- [ ] **File:** `src/shared/Config/Assets.lua`
+- [x] **File:** `src/shared/Config/Assets.lua`
 - **Instruction:** Create a single return table with top-level keys: `Models`, `Images`, `Sounds`, `Animations`, `GamePasses`, `Products`, `Badges`. Under each key add sub-tables matching the categories defined in GDD §16.8. Every value is a placeholder integer `0` — no hardcoded live IDs. All other scripts must `require` this file and index into it; direct string/number asset IDs are forbidden everywhere else.
 - **Output:** One file, no logic, no functions — pure nested table of constants.
 - **Integration:** Required by every service, controller, and UI component that references a model, image, sound, animation, pass, product, or badge ID.
