@@ -1,9 +1,9 @@
 # Game Design Document — Anjay Hunter
 
-**Version:** 1.1
+**Version:** 1.2
 **Status:** In Progress
 **Platform:** Roblox
-**Last Updated:** 2026-05-07
+**Last Updated:** 2026-05-08
 
 ---
 
@@ -1061,3 +1061,258 @@ All remotes fire **server → client** for state updates. Clients fire **client 
 | Energy regen | Lazy evaluation only — compute on login and before any energy action; no server loop |
 | Leaderboard updates | Write to `OrderedDataStore` only on rep change, level-up, or codex update — not on every frame |
 | Anti-exploit | Validate all C→S inputs: item ownership, energy availability, dungeon daily limit, pet ownership |
+
+---
+
+### 16.6 Framework & File Structure
+
+**Framework:** [Knit](https://sleitnick.github.io/Knit/) — Service/Controller pattern. Services run server-side; Controllers run client-side. Shared modules live in `ReplicatedStorage/Shared`.
+
+**Rojo project structure:**
+
+```
+src/
+  server/
+    Services/         -- Knit Services (one file per service)
+    init.server.lua   -- Knit.Start() entry point
+  client/
+    Controllers/      -- Knit Controllers (one file per controller)
+    Components/       -- Reusable UI components (Button, Window, etc.)
+    init.client.lua   -- Knit.Start() entry point
+  shared/
+    Config/           -- Constants: Assets, GameConfig, SpeciesConfig, etc.
+    Utils/            -- Pure helper functions (formulas, element lookup, etc.)
+    Remotes.lua       -- RemoteEvent / RemoteFunction registry
+    Types.lua         -- Luau strict-mode type definitions
+  assets/             -- Mapped into ReplicatedStorage/Assets via Rojo
+```
+
+**Packages:**
+- `Knit 1.5.1` — service/controller DI
+- `Promise 4.0.0` — async flow
+- `ProfileService` (server) — atomic DataStore saves with session locking
+
+---
+
+### 16.7 Cross-Platform UI Design
+
+The game must support **Desktop**, **Mobile (phone)**, and **Tablet** without layout breakage or unusable touch targets.
+
+**Platform detection (client-side, evaluated once at startup):**
+
+```lua
+local UserInputService = game:GetService("UserInputService")
+local GuiService       = game:GetService("GuiService")
+
+local Platform = {
+    IsMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled,
+    IsTablet = UserInputService.TouchEnabled and UserInputService.KeyboardEnabled == false
+              and workspace.CurrentCamera.ViewportSize.X >= 768,
+    IsDesktop = UserInputService.KeyboardEnabled,
+    IsGamepad = UserInputService.GamepadEnabled,
+}
+-- Simplified bucket used throughout UIController:
+-- "mobile" | "tablet" | "desktop"
+```
+
+**Layout rules per platform:**
+
+| Rule | Desktop | Tablet | Mobile |
+|---|---|---|---|
+| Min interactive element size | 24 px | 44 px | 48 px |
+| HUD position | top-left / top-right corners | same | anchored to safe area insets |
+| Battle action buttons | horizontal row, medium size | 2×2 grid | large vertical stack or radial |
+| Shop / inventory panel | side-panel overlay | bottom sheet, 60% height | full-screen modal |
+| Text size scale | 1.0× | 1.15× | 1.25× |
+| Scrollable lists (pet roster, codex) | vertical scroll, narrow | vertical scroll, medium | full-width vertical scroll |
+
+**Safe area handling:**
+
+```lua
+-- Apply safe area insets to all root ScreenGui frames
+local topInset, bottomInset = GuiService:GetGuiInset()
+-- Offset root frame by topInset on Y; bottomInset for bottom-anchored elements
+-- Required for devices with notches / home indicator bars
+```
+
+**Input binding via ContextActionService:**
+
+All interactive actions (battle: Attack, Skill 1–6, Item, Swap, Flee) must be bound to:
+- Keyboard shortcuts (Desktop)
+- On-screen touch buttons (Mobile / Tablet)
+- Gamepad face buttons (optional, stretch goal)
+
+Use `ContextActionService:BindAction` with `createTouchButton = Platform.IsMobile or Platform.IsTablet`.
+
+**UI scaling:**
+
+All ScreenGui elements use `Scale`-based `UDim2` sizing, not `Offset`. A single `UIScale` object at the root ScreenGui level adjusts for `ViewportSize` breakpoints:
+
+| ViewportSize.X | UIScale.Scale |
+|---|---|
+| < 480 | 0.85 |
+| 480–767 | 1.0 |
+| 768–1023 | 1.1 |
+| ≥ 1024 | 1.25 |
+
+---
+
+### 16.8 Asset Constants File
+
+All Roblox asset IDs (image, sound, model, animation) live in a **single shared config file** at `src/shared/Config/Assets.lua`. No asset ID may be hardcoded elsewhere — always reference `Assets.*`.
+
+**Structure:**
+
+```lua
+-- src/shared/Config/Assets.lua
+return {
+    -- Pet voxel models (rbxassetid)
+    Models = {
+        Pets = {
+            dog_stage1    = "rbxassetid://0000000001",
+            dog_stage2    = "rbxassetid://0000000002",  -- Wolf
+            dog_stage3    = "rbxassetid://0000000003",  -- Dire Wolf
+            -- ... all species × all stages
+        },
+        Monsters = {
+            goblin         = "rbxassetid://0000000100",
+            slime          = "rbxassetid://0000000101",
+            -- ... all dungeon monsters
+        },
+        Npcs = {
+            elder_maris    = "rbxassetid://0000000200",
+            -- ...
+        },
+    },
+
+    -- UI images / icons
+    Images = {
+        Elements = {
+            fire     = "rbxassetid://0000001001",
+            water    = "rbxassetid://0000001002",
+            nature   = "rbxassetid://0000001003",
+            earth    = "rbxassetid://0000001004",
+            electric = "rbxassetid://0000001005",
+            ice      = "rbxassetid://0000001006",
+            metal    = "rbxassetid://0000001007",
+            dark     = "rbxassetid://0000001008",
+            light    = "rbxassetid://0000001009",
+            wind     = "rbxassetid://0000001010",
+        },
+        Ranks = {
+            copper    = "rbxassetid://0000002001",
+            iron      = "rbxassetid://0000002002",
+            silver    = "rbxassetid://0000002003",
+            gold      = "rbxassetid://0000002004",
+            platinum  = "rbxassetid://0000002005",
+            mithril   = "rbxassetid://0000002006",
+            orichalcum = "rbxassetid://0000002007",
+            adamantite = "rbxassetid://0000002008",
+        },
+        Items = {
+            hp_potion_small   = "rbxassetid://0000003001",
+            hp_potion_large   = "rbxassetid://0000003002",
+            -- ... all item IDs from ITEM.md
+        },
+        UI = {
+            button_default    = "rbxassetid://0000004001",
+            panel_background  = "rbxassetid://0000004002",
+            -- ...
+        },
+    },
+
+    -- Sound effects
+    Sounds = {
+        Battle = {
+            attack_hit        = "rbxassetid://0000005001",
+            skill_fire        = "rbxassetid://0000005002",
+            capture_success   = "rbxassetid://0000005003",
+            capture_fail      = "rbxassetid://0000005004",
+            level_up          = "rbxassetid://0000005005",
+            evolve            = "rbxassetid://0000005006",
+            boss_phase_change = "rbxassetid://0000005007",
+        },
+        UI = {
+            button_click      = "rbxassetid://0000005100",
+            menu_open         = "rbxassetid://0000005101",
+            purchase_success  = "rbxassetid://0000005102",
+        },
+        World = {
+            zone_starter_ambient = "rbxassetid://0000005200",
+            zone_forest_ambient  = "rbxassetid://0000005201",
+            zone_mountain_ambient = "rbxassetid://0000005202",
+            zone_volcano_ambient = "rbxassetid://0000005203",
+            zone_abyss_ambient   = "rbxassetid://0000005204",
+            zone_hub_music       = "rbxassetid://0000005205",
+        },
+        Weather = {
+            rain                 = "rbxassetid://0000005300",
+            blizzard             = "rbxassetid://0000005301",
+            thunder              = "rbxassetid://0000005302",
+        },
+    },
+
+    -- Animations (AnimationId)
+    Animations = {
+        Player = {
+            idle           = "rbxassetid://0000006001",
+            walk           = "rbxassetid://0000006002",
+            emote_wave     = "rbxassetid://0000006003",
+        },
+        Pets = {
+            idle           = "rbxassetid://0000006100",
+            walk           = "rbxassetid://0000006101",
+            attack         = "rbxassetid://0000006102",
+            faint          = "rbxassetid://0000006103",
+        },
+    },
+
+    -- Game passes (numeric pass ID)
+    GamePasses = {
+        hunters_vip        = 000000001,
+        pet_whisperer      = 000000002,
+        double_xp          = 000000003,
+        expedition_master  = 000000004,
+        dungeon_veteran    = 000000005,
+        battle_tactician   = 000000006,
+        slot_booster       = 000000007,
+    },
+
+    -- Developer products (numeric product ID)
+    Products = {
+        gold_100           = 000000101,
+        gold_500           = 000000102,
+        gold_2000          = 000000103,
+        gold_5000          = 000000104,
+        energy_refill      = 000000105,
+        dungeon_key        = 000000106,
+        capture_boost      = 000000107,
+        xp_boost_1h        = 000000108,
+        -- Donation tiers
+        donate_supporter   = 000000201,
+        donate_patron      = 000000202,
+        donate_benefactor  = 000000203,
+        donate_grand_patron = 000000204,
+        donate_legend      = 000000205,
+        -- Tip tiers
+        tip_small          = 000000301,
+        tip_medium         = 000000302,
+        tip_big            = 000000303,
+        tip_mega           = 000000304,
+    },
+
+    -- Roblox Platform Badges (numeric badge ID)
+    Badges = {
+        first_steps        = 000001001,
+        beast_slayer       = 000001002,
+        dungeon_diver      = 000001003,
+        boss_hunter        = 000001004,
+        pvp_champion       = 000001005,
+        adamantite_legend  = 000001006,
+        codex_complete     = 000001007,
+        true_supporter     = 000001008,
+    },
+}
+```
+
+Replace all `0000000000` placeholders with real Roblox asset IDs once uploaded to the Roblox platform.
