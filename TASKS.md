@@ -51,7 +51,7 @@ All config files live in `src/shared/Config/`. They are pure data modules — no
 ---
 
 ### F04 — MonsterConfig.lua
-- [ ] **File:** `src/shared/Config/MonsterConfig.lua`
+- [x] **File:** `src/shared/Config/MonsterConfig.lua`
 - **Instruction:** Define every wild monster and boss from MONSTER.md as `[monster_id] = { ... }`. Fields: `Name`, `Element`, `IsBoss` (bool), `PhaseCount` (1–3), `BaseStats`, `PhaseThresholds` (HP % triggers, only if `IsBoss`), `PhaseStatMultipliers` (table indexed by phase), `AIBehavior` (`"aggressive"` / `"defensive"` / `"support"`), `AbilityPool` (array of skill IDs), `DropTable` (array of `{ ItemId, Chance, MinQty, MaxQty }`), `ExpReward`, `SilverReward`, `ModelId` (key into `Assets.Models.Monsters`). Boss entries must list all phase abilities separately.
 - **Output:** One file; all 21 monsters + 5 bosses fully populated per MONSTER.md.
 - **Integration:** Required by `BattleService` (stat resolution, phase transitions, AI), `LootService` (drop rolls), `ZoneService` (spawn validation), `QuestService` (kill tracking).
@@ -64,7 +64,7 @@ All config files live in `src/shared/Config/`. They are pure data modules — no
 ---
 
 ### F05 — ItemConfig.lua
-- [ ] **File:** `src/shared/Config/ItemConfig.lua`
+- [x] **File:** `src/shared/Config/ItemConfig.lua`
 - **Instruction:** Define all 53 items from ITEM.md as `[item_id] = { ... }`. Fields: `Name`, `Category` (`"consumable"` / `"material"` / `"equipment"` / `"key_item"`), `SubCategory`, `StackMax`, `BuyPrice`, `SellPrice`, `Effects` (array of effect descriptors used by `ItemService`), `Acquisition` (array of source strings, informational), `IconId` (key into `Assets.Images.Items`), `Description`. For consumables, `Effects` must be structured data (not prose) so `ItemService` can execute them: `{ type="heal_hp", amount=0.3, target="self" }`.
 - **Output:** One file; all 53 items populated.
 - **Integration:** Required by `ItemService` (use/effect execution), `ShopService` (price lookup), `LootService` (item validation), `InventoryController` (display).
