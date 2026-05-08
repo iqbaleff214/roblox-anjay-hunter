@@ -38,7 +38,7 @@ All config files live in `src/shared/Config/`. They are pure data modules — no
 ---
 
 ### F03 — SpeciesConfig.lua
-- [ ] **File:** `src/shared/Config/SpeciesConfig.lua`
+- [x] **File:** `src/shared/Config/SpeciesConfig.lua`
 - **Instruction:** Define every playable pet species as a keyed table `[species_id] = { ... }`. Each entry must include: `Name`, `Element` (string matching element IDs in ElementUtils), `BaseStats` (`HP`, `ATK`, `DEF`, `SPD`, `CRT`), `StatGrowth` (multipliers per level), `EvolutionStages` (array of stage tables each with `Level`, `ModelId` key referencing `Assets.Models.Pets`), `SkillPool` (array of skill IDs referencing SkillConfig), `BaseCapture` (number, 0–1), `Rarity` (string), `Lore` (string). Cross-reference BEAST.md and MONSTER.md for species that appear as both capturable and wild.
 - **Output:** One file, all species populated with at least stat stubs; lore strings can be placeholder text initially.
 - **Integration:** Required by `PetService` (evolution, leveling), `BattleService` (stat lookup), `CaptureService` (base rate), `CodexService` (entry generation), `HUDController`/`PetPanelController` (display).
